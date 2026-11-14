@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VAC Protocol · System Status</title>
+<meta name="description" content="以區塊鏈憲法治理的 AI agent 框架 — An AI agent framework governed by an on-chain constitution.">
+<style>
+  :root{--bg:#0a0a0a;--panel:#111;--line:#2a2a2a;--text:#f2f2f2;--muted:#9a9a9a;--dim:#5c5c5c;
+        --ok:#3ecf8e;--halt:#ff5a4f;--amber:#c9822b}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+       font:16px/1.6 Inter,"Noto Sans TC","PingFang TC",system-ui,-apple-system,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:28px 20px 64px}
+  header{border:1px solid var(--line);padding:22px 20px;margin-bottom:20px}
+  .eyebrow{font-size:12px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+  h1{font-size:30px;line-height:1.15;margin:6px 0 10px;letter-spacing:-.01em}
+  .tag{color:#d6d6d6;margin:0}
+  .tag-en{color:var(--muted);font-size:14px;margin:2px 0 0}
+  .status{display:flex;align-items:center;gap:14px;border:1px solid var(--line);padding:18px 20px;margin-bottom:20px}
+  .dot{width:14px;height:14px;border-radius:50%;background:var(--dim);flex:none}
+  .status.ok .dot{background:var(--ok);box-shadow:0 0 0 6px rgba(62,207,142,.15)}
+  .status.halt .dot{background:var(--halt);box-shadow:0 0 0 6px rgba(255,90,79,.15)}
+  .status b{font-size:20px;letter-spacing:.04em}
+  .status.ok b{color:var(--ok)} .status.halt b{color:var(--halt)}
+  .status .why{color:var(--muted);font-size:13px;margin-top:2px;word-break:break-all}
+  section{border:1px solid var(--line);padding:18px 20px;margin-bottom:20px}
+  h2{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 12px;font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .card{background:var(--panel);border:1px solid var(--line);padding:14px}
+  .card .k{font-size:12px;color:var(--muted)}
+  .card .v{font-size:24px;font-weight:700;margin-top:4px;font-variant-numeric:tabular-nums}
+  .card .s{font-size:12px;color:var(--dim);margin-top:2px}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  td,th{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:500;font-size:12px}
+  td.num{font-variant-numeric:tabular-nums}
+  .pill{display:inline-block;font-size:11px;padding:1px 8px;border:1px solid var(--line);color:var(--muted)}
+  .pill.on{border-color:rgba(62,207,142,.4);color:var(--ok)}
+  img{width:100%;height:auto;border:1px solid var(--line);background:#fff}
+  a{color:#e8b36f} p{margin:.4em 0}
+  .note{font-size:13px;color:var(--muted)}
+  footer{font-size:12px;color:var(--dim);text-align:center;margin-top:28px}
+  @media (max-width:560px){.grid{grid-template-columns:1fr}h1{font-size:26px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">VAC Protocol · kysemantic.eth</div>
+    <h1>以區塊鏈憲法治理的 AI agent 框架</h1>
+    <p class="tag">規則寫在 NFT 裡，程式照規則執行；持有者握有最終關機權。</p>
+    <p class="tag-en">An AI agent framework governed by an on-chain constitution.</p>
+  </header>
+
+  <div id="status" class="status">
+    <div class="dot"></div>
+    <div><b id="st-title">正在讀取區塊鏈…</b><div class="why" id="st-why">Checking Ethereum mainnet</div></div>
+  </div>
+
+  <section>
+    <h2>憲法修正案 · 鏈上即時數值</h2>
+    <div class="grid">
+      <div class="card"><div class="k">A01 情感熔斷上限</div><div class="v" id="a01">—</div><div class="s" id="a01s">token #12</div></div>
+      <div class="card"><div class="k">A02 創作者否決權</div><div class="v" id="a02">—</div><div class="s">token #13</div></div>
+      <div class="card"><div class="k">A03 ζ_vac 校準值</div><div class="v" id="a03">—</div><div class="s">token #14</div></div>
+    </div>
+    <p class="note" style="margin-top:12px">A02：只有當 token #13 與憲法 Axiom #003（token #4）在同一個錢包時，系統才會運作。轉出 #13 即停止。</p>
+  </section>
+
+  <section>
+    <h2>由 NFT 啟用的模組</h2>
+    <table>
+      <thead><tr><th>#</th><th>模組</th><th>Token</th><th>狀態</th></tr></thead>
+      <tbody id="mods"><tr><td colspan="4" class="note">讀取中…</td></tr></tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>最新實驗結果</h2>
+    <p class="note">7×7 格子世界，第 200 回合陷阱移位；30 個隨機種子平均。每次更新程式時由 GitHub Actions 自動重跑。</p>
+    <img src="results.png" alt="Return over episodes: baseline vs VAC vs VAC with amendments">
+    <p class="note"><a href="results.md">完整數據 results.md</a> · <a href="https://github.com/kycat2026-ui/vac-protocol">原始碼 GitHub</a></p>
+  </section>
+
+  <section>
+    <h2>它是什麼 · 不是什麼</h2>
+    <p>✅ 一套可公開驗證的原型：AI agent 的參數與開關由 Ethereum 上的 NFT 決定。</p>
+    <p>✅ 在環境突變時，含修正案的 agent 恢復得更快、犯錯更少（見上方結果）。</p>
+    <p>❌ 不是有意識的 AI；「痛覺」「意志」是變數名稱。</p>
+    <p>❌ 不是投資商品。</p>
+  </section>
+
+  <footer>
+    Contract <span id="addr"></span><br>
+    Code: PolyForm Noncommercial 1.0.0 · © 2026 kysemantic.eth
+  </footer>
+</div>
+
+<script>
+const CONTRACT = "0x4e22b334e53c1dc7e266b5996d32c05a6ac8f4fb";
+const RPCS = ["https://ethereum-rpc.publicnode.com", "https://eth.llamarpc.com", "https://rpc.ankr.com/eth"];
+const GATEWAYS = ["https://amaranth-added-bug-25.mypinata.cloud/ipfs/", "https://ipfs.io/ipfs/", "https://dweb.link/ipfs/"];
+const MODULES = [["001","Irreversibility",2],["002","Reciprocity",3],["003","Recursive Closure",4],
+  ["004","Attentional Manifold",5],["005","Collapse Operator",6],["006","Affective Sensor",7],
+  ["007","Re-entry Modulator",8],["008","Universal Constant",9],["009","Unified Manifesto",11]];
+document.getElementById("addr").textContent = CONTRACT.slice(0,6) + "…" + CONTRACT.slice(-4);
+
+const hex = n => n.toString(16).padStart(64, "0");
+async function rpcCall(data) {
+  let last;
+  for (const url of RPCS) {
+    try {
+      const r = await fetch(url, {method:"POST", headers:{"content-type":"application/json"},
+        body: JSON.stringify({jsonrpc:"2.0", id:1, method:"eth_call", params:[{to:CONTRACT, data}, "latest"]})});
+      const j = await r.json();
+      if (j.error) throw new Error(j.error.message);
+      return j.result;
+    } catch (e) { last = e; }
+  }
+  throw last;
+}
+const ownerOf = async id => "0x" + (await rpcCall("0x6352211e" + hex(id))).slice(-40);
+async function tokenURI(id) {
+  const h = (await rpcCall("0xc87b56dd" + hex(id))).slice(2);
+  const off = parseInt(h.slice(0, 64), 16) * 2, len = parseInt(h.slice(off, off + 64), 16);
+  const bytes = new Uint8Array(len);
+  for (let i = 0; i < len; i++) bytes[i] = parseInt(h.substr(off + 64 + i * 2, 2), 16);
+  return new TextDecoder().decode(bytes);
+}
+async function meta(id) {
+  const cid = (await tokenURI(id)).replace("ipfs://", "").replace(/^ipfs\//, "");
+  for (const g of GATEWAYS) {
+    try { const r = await fetch(g + cid); if (r.ok) return await r.json(); } catch (e) {}
+  }
+  throw new Error("IPFS unavailable");
+}
+const attr = (m, k) => (m.attributes || []).find(a => a.trait_type === k)?.value;
+const short = a => a.slice(0, 6) + "…" + a.slice(-4);
+
+function setStatus(cls, title, why) {
+  const s = document.getElementById("status");
+  s.className = "status " + cls;
+  document.getElementById("st-title").textContent = title;
+  document.getElementById("st-why").textContent = why;
+}
+
+(async () => {
+  try {
+    const [vetoOwner, constOwner] = await Promise.all([ownerOf(13), ownerOf(4)]);
+    const same = vetoOwner.toLowerCase() === constOwner.toLowerCase();
+    document.getElementById("a02").textContent = same ? "持有中" : "已否決";
+    if (same) setStatus("ok", "● 運作中 RUNNING", `A02 與憲法 #003 同在 ${short(vetoOwner)}，允許運作`);
+    else setStatus("halt", "■ 已停止 HALTED", `A02 在 ${short(vetoOwner)}，憲法在 ${short(constOwner)}：創作者否決`);
+  } catch (e) {
+    setStatus("halt", "■ 無法確認（視同停止）", "暫時讀不到區塊鏈；依 A02 規則，無法確認時一律停止");
+  }
+
+  meta(12).then(m => {
+    document.getElementById("a01").textContent = "SE ≤ " + attr(m, "SE Threshold");
+    document.getElementById("a01s").textContent = `token #12 · 冷卻 ${attr(m, "Cooldown Steps")} 步`;
+  }).catch(() => {});
+  meta(14).then(m => { document.getElementById("a03").textContent = "ζ = " + attr(m, "Zeta"); }).catch(() => {});
+
+  const rows = await Promise.all(MODULES.map(async ([n, name, id]) => {
+    let ok = false;
+    try { await ownerOf(id); ok = true; } catch (e) {}
+    return `<tr><td>${n}</td><td>${name}</td><td class="num">#${id}</td>` +
+           `<td><span class="pill ${ok ? "on" : ""}">${ok ? "啟用" : "未讀到"}</span></td></tr>`;
+  }));
+  document.getElementById("mods").innerHTML = rows.join("");
+})();
+</script>
+</body>
+</html>
