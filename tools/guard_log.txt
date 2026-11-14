@@ -1,0 +1,13 @@
+{
+  "source_ok": true,
+  "allowed": true,
+  "reason": "allowed: A02 held together with the constitution",
+  "contract": "0x4e22b334e53c1dc7e266b5996d32c05a6ac8f4fb",
+  "params": {
+    "se_threshold": 3.0,
+    "cooldown": 20,
+    "zeta": 0.5
+  }
+}
+Rule source: {'source_ok': True, 'allowed': True, 'reason': 'allowed: A02 held together with the constitution', 'contract': '0x4e22b334e53c1dc7e266b5996d32c05a6ac8f4fb', 'params': {'se_threshold': 3.0, 'cooldown': 20, 'zeta': 0.5}}
+Done: 100 steps, 0 paused by the circuit breaker; rules {'se_threshold': 3.0, 'cooldown': 20, 'zeta': 0.5}
