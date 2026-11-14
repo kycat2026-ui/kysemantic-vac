@@ -6,6 +6,21 @@ The nine modules in the white paper are being turned into runnable code. The age
 
 > "Pain", "will" and "survival drive" are names for system variables. They do not mean the machine has feelings or consciousness.
 
+## Quick start: the NFTs are the entry point
+
+```bash
+python3 vac_agent.py            # 1. read the NFTs on-chain → 2. enable modules → 3. run the experiment
+python3 vac_agent.py --offline  # use an existing vac_genome.json
+```
+
+The agent first reads the VAC Protocol NFTs on Ethereum, and each module (001–009) is enabled only if its NFT is found. It then compares a standard agent with the VAC agent in a grid world, where the traps move halfway through. Results go to `results.md` and `results.png`.
+
+Every push runs this automatically on GitHub Actions and commits the latest results back to the repo.
+
+![results](results.png)
+
+See [results.md](results.md) for the full results.
+
 ## Step 1: Read the NFT genome
 
 ```bash
@@ -37,6 +52,8 @@ Contract: `0x4e22b334e53c1dc7e266b5996d32c05a6ac8f4fb`
 ## Roadmap
 
 - [x] Read NFT metadata on-chain
-- [ ] Grid-world environment
-- [ ] Implement modules 001–009
-- [ ] Controlled experiment: standard agent vs. VAC agent
+- [x] Grid-world environment
+- [x] Implement modules 001–009 (enabled from the NFTs)
+- [x] Controlled experiment: standard agent vs. VAC agent
+- [ ] Write numeric parameters (e.g. ζ_vac) into NFT metadata
+- [ ] Tune the baseline agent so the comparison is stricter

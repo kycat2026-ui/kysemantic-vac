@@ -151,9 +151,20 @@ def main():
 
     genome = {"contract": CONTRACT, "chain": chain, "standard": std,
               "name": name, "tokens": {}}
+    missing = 0
     for tid in ids:
         try:
-            uri = token_uri(url, std, tid)
+            try:
+                uri = token_uri(url, std, tid)
+            except RuntimeError as e:
+                if "7e273289" in str(e) or "execution reverted" in str(e):
+                    missing += 1
+                    if missing >= 3:
+                        print(f"#{tid}: 已無更多 token，停止")
+                        break
+                    continue
+                raise
+            missing = 0
             if not uri:
                 continue
             print(f"#{tid} tokenURI: {uri}")

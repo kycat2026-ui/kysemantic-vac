@@ -1,10 +1,11 @@
-name: Read NFT genome
+name: VAC prototype (NFT entry)
 
 on:
   push:
     branches: [main]
     paths:
       - read_vac_nft.py
+      - vac_agent.py
       - .github/workflows/read-genome.yml
   workflow_dispatch:
     inputs:
@@ -15,7 +16,7 @@ on:
       ids:
         description: "Token range"
         required: false
-        default: "1-20"
+        default: "1-50"
 
 permissions:
   contents: write
@@ -30,13 +31,16 @@ jobs:
           python-version: "3.12"
       - name: Read NFT metadata on-chain
         run: |
-          IDS="${{ inputs.ids }}"; ARGS="--ids ${IDS:-1-20}"
-          if [ -n "${{ inputs.chain }}" ]; then ARGS="$ARGS --chain ${{ inputs.chain }}"; fi
-          python3 read_vac_nft.py $ARGS | tee read_log.txt
+          IDS="${{ inputs.ids }}"; ARGS="--ids ${IDS:-1-50}"
+          python3 read_vac_nft.py --chain ethereum $ARGS | tee read_log.txt
+      - name: Run VAC prototype
+        run: |
+          pip install matplotlib
+          python3 vac_agent.py --offline
       - name: Commit results
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f vac_genome.json read_log.txt
-          git commit -m "Update vac_genome.json from chain" || echo "No changes"
+          git add -f vac_genome.json read_log.txt results.md results.png
+          git commit -m "Update genome and prototype results" || echo "No changes"
           git push
