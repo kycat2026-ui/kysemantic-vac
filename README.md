@@ -10,6 +10,30 @@ The nine modules in the white paper are being turned into runnable code. The age
 
 > "Pain", "will" and "survival drive" are names for system variables. They do not mean the machine has feelings or consciousness.
 
+## 🔌 Attach your AI to the VAC constitution (free for noncommercial use)
+
+Copy the single file [`vac_guard.py`](vac_guard.py) into your project. It needs nothing installed (Python standard library only):
+
+```python
+from vac_guard import VACGuard
+
+guard = VACGuard()                  # rules come only from the official VAC Protocol NFTs (Ethereum mainnet)
+if not guard.allowed():             # A02 creator veto: may I run? Fail-closed.
+    raise SystemExit(guard.reason)
+
+params = guard.params()             # {"se_threshold": 3.0, "cooldown": 20, "zeta": 0.5}, read from the chain
+
+while running:
+    surprise = my_ai.step()         # your AI's error, surprise or uncertainty
+    if guard.breaker(surprise):     # A01 circuit breaker: too chaotic → pause or slow down
+        continue
+```
+
+- **Single source:** at startup it checks the contract `0x4e22…f4fb` for its name and owner (kysemantic.eth). A look-alike contract is refused.
+- **Creator veto:** any AI using this guard stops when the creator transfers out token #13.
+- **Fail-closed:** if the chain can't be read, it doesn't run.
+- Full example: [`example_attach.py`](example_attach.py). Run `python3 vac_guard.py` to see the current on-chain status.
+
 ## Rigorous benchmark v1 (pre-registered): honest findings
 
 Pre-registration: [PREREGISTRATION.md](PREREGISTRATION.md) · Full results: [bench_results.md](bench_results.md)
