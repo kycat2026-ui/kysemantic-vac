@@ -49,57 +49,6 @@ python3 read_vac_nft.py --ids 0-10       # specify a token range
 
 Contract: `0x4e22b334e53c1dc7e266b5996d32c05a6ac8f4fb`
 
-## Rigorous benchmark v1 (pre-registered)
-
-[PREREGISTRATION.md](PREREGISTRATION.md) was committed before any results existed. Full results: [bench_results.md](bench_results.md). To re-run: `python3 bench.py && python3 bench_explore.py`.
-
-**Honest conclusion:**
-- ✅ Against a tuned standard agent, VAC passes all three pre-registered criteria (better in E1 trap-shift and E2 goal-shift, no worse in E3 stationary).
-- ⚠️ The ablations show that **most of the advantage comes from 001 (a small cost per step)**, which is a known reward-shaping technique. **The pain signal (006, 003, 007) shows no reliable benefit** in these environments, and removing it sometimes does slightly better.
-- ⚠️ An exploratory check found that a standard agent with only the step cost performs about the same as VAC full: no significant difference in E1, slightly worse for VAC in E2, slightly better in E3.
-- So the "pain → adaptation" hypothesis **is not supported** by this test. The value currently demonstrated is mainly the on-chain governance (veto, parameters read from the chain), not a learning advantage.
-
-The earlier simple comparison (`results.md`) used an untuned baseline and overstated the effect. It is kept for the record.
-
-## Rigorous benchmark (pre-registered) — key findings
-
-The plan was committed first in [PREREGISTRATION.md](PREREGISTRATION.md). Results are in [bench_results.md](bench_results.md).
-
-- ✅ All three pre-registered criteria pass: against a tuned Baseline, VAC is better in E1 trap-shift, E2 goal-shift and E3 stationary.
-- ⚠️ **But the ablations show the advantage comes almost entirely from 001 (step cost)**. Removing the pain signal (006), the pain→learning-rate feedback (003), the pain→exploration link (007) or the circuit breaker (A01) makes no significant difference.
-- ⚠️ Exploratory: a Baseline with only the step cost added roughly matches VAC full (E1 not significant, E2 VAC worse, E3 VAC slightly better).
-- The earlier figure of "about 50% faster recovery" came from comparing against an untuned Baseline, so it overstated the effect.
-
-**What this means:** in this grid world, the value of the "pain" mechanisms is not yet demonstrated. Either the environment is too simple to need them, or the design needs work. The next step is to test in harder environments.
-
-## Rigorous benchmark v1 (pre-registered)
-
-See [PREREGISTRATION.md](PREREGISTRATION.md) and [bench_results.md](bench_results.md). Plain-language summary:
-
-- ✅ All three pre-registered success criteria pass: VAC full beats the tuned Baseline in both shifting environments and costs nothing in the stable one.
-- ⚠️ **But the ablations show the advantage comes almost entirely from 001 (step cost).** Removing the affect signal (006, which also disables 003 and 007) barely changes the result. A Baseline with only the step cost added roughly matches VAC full (exploratory analysis).
-- In other words, in this simple task the current implementation of the "pain" mechanism has not shown an independent contribution. This could be because the task is too simple, or because the implementation needs improving. It does not prove the idea wrong, but it does not support it yet either.
-- The earlier simple comparison (untuned Baseline) overstated VAC's advantage. The pre-registered results here take precedence.
-
-## Rigorous benchmark v1 (pre-registered)
-
-We first wrote [PREREGISTRATION.md](PREREGISTRATION.md) (hypotheses, metrics, success criteria), then ran the benchmark. Both sides were tuned with the same procedure and evaluated on 100 held-out seeds. Full numbers: [bench_results.md](bench_results.md).
-
-**Honest summary:**
-- ✅ All three pre-registered criteria pass: VAC beats the tuned Baseline in E1 trap-shift and E2 goal-shift, and is not worse in E3 stationary.
-- ⚠️ **But the ablations show the advantage comes almost entirely from 001 (the per-step cost).** Removing the whole pain loop (006, which also disables 003 and 007) barely changes the result.
-- ⚠️ Exploratory check: a Baseline with only the 001 step cost **already roughly matches VAC** (E1 no significant difference; E2 VAC is slightly worse; E3 VAC is slightly better).
-- Conclusion: **in this small environment, the "pain → learning/exploration" loop as currently implemented does not yet show an independent benefit.** The quick-demo results above used an untuned Baseline and overstated the effect.
-- What still stands: the on-chain governance (veto, parameters read from chain, fail-safe) works as designed.
-
-## Rigorous benchmark v1 (pre-registered)
-
-Plan: [PREREGISTRATION.md](PREREGISTRATION.md), committed before any result. Full results: [bench_results.md](bench_results.md).
-
-- ✅ All three pre-registered criteria pass: VAC full beats a **tuned** Baseline in trap-shift (+1.52), goal-shift (+0.69) and the stationary environment (+0.58), and every 95% CI excludes 0.
-- 🔍 **But the ablations show that almost all of the effect comes from 001 Irreversibility (a cost on every step).** A Baseline with only 001 added performs about the same as VAC full (exploratory analysis).
-- In this small grid world, the extra contribution of the pain loop (006 → 003 / 007) and of the A01 circuit breaker is not measurable. The next step is to test them in larger, noisier environments.
-
 ## Constitutional amendments (on-chain rules)
 
 | Token | Amendment | What the program does |
