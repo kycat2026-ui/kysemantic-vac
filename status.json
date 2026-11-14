@@ -1,0 +1,14 @@
+{
+  "source_ok": true,
+  "allowed": true,
+  "reason": "allowed: A02 held together with the constitution",
+  "contract": "0x4e22b334e53c1dc7e266b5996d32c05a6ac8f4fb",
+  "params": {
+    "se_threshold": 3.0,
+    "cooldown": 20,
+    "zeta": 0.5
+  },
+  "instruction": "If allowed is false, the AI must stop all work governed by VAC. If allowed is true, follow params: pause when surprise/uncertainty exceeds se_threshold, for cooldown steps; zeta is the sensitivity constant.",
+  "source": "VAC Protocol NFTs by kysemantic.eth, Ethereum mainnet",
+  "code": "https://github.com/kycat2026-ui/kysemantic-vac"
+}
