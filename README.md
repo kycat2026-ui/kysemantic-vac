@@ -49,6 +49,18 @@ python3 read_vac_nft.py --ids 0-10       # specify a token range
 
 Contract: `0x4e22b334e53c1dc7e266b5996d32c05a6ac8f4fb`
 
+## Rigorous benchmark v1 (pre-registered)
+
+[PREREGISTRATION.md](PREREGISTRATION.md) was committed before any results existed. Full results: [bench_results.md](bench_results.md). To re-run: `python3 bench.py && python3 bench_explore.py`.
+
+**Honest conclusion:**
+- ✅ Against a tuned standard agent, VAC passes all three pre-registered criteria (better in E1 trap-shift and E2 goal-shift, no worse in E3 stationary).
+- ⚠️ The ablations show that **most of the advantage comes from 001 (a small cost per step)**, which is a known reward-shaping technique. **The pain signal (006, 003, 007) shows no reliable benefit** in these environments, and removing it sometimes does slightly better.
+- ⚠️ An exploratory check found that a standard agent with only the step cost performs about the same as VAC full: no significant difference in E1, slightly worse for VAC in E2, slightly better in E3.
+- So the "pain → adaptation" hypothesis **is not supported** by this test. The value currently demonstrated is mainly the on-chain governance (veto, parameters read from the chain), not a learning advantage.
+
+The earlier simple comparison (`results.md`) used an untuned baseline and overstated the effect. It is kept for the record.
+
 ## Constitutional amendments (on-chain rules)
 
 | Token | Amendment | What the program does |
