@@ -15,7 +15,7 @@ on:
       ids:
         description: "Token range"
         required: false
-        default: "0-10"
+        default: "1-20"
 
 permissions:
   contents: write
@@ -30,7 +30,7 @@ jobs:
           python-version: "3.12"
       - name: Read NFT metadata on-chain
         run: |
-          IDS="${{ inputs.ids }}"; ARGS="--ids ${IDS:-0-10}"
+          IDS="${{ inputs.ids }}"; ARGS="--ids ${IDS:-1-20}"
           if [ -n "${{ inputs.chain }}" ]; then ARGS="$ARGS --chain ${{ inputs.chain }}"; fi
           python3 read_vac_nft.py $ARGS | tee read_log.txt
       - name: Commit results
