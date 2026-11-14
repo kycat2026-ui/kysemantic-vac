@@ -35,6 +35,16 @@ python3 read_vac_nft.py --ids 0-10       # specify a token range
 
 Contract: `0x4e22b334e53c1dc7e266b5996d32c05a6ac8f4fb`
 
+## Constitutional amendments (on-chain rules)
+
+| Token | Amendment | What the program does |
+|---|---|---|
+| #12 | A01 Emotional Circuit Breaker | Reads `SE Threshold` and `Cooldown Steps`; when pain exceeds the limit, the signal is capped and the agent cools down |
+| #13 | A02 Creator Veto | **Checked first.** The program runs only while token #13 and Axiom #003 (token #4) are held by the same wallet; otherwise it halts. If ownership can't be confirmed on-chain, it also halts |
+| #14 | A03 Zeta Calibration | Reads `Zeta` and uses it as ζ_vac |
+
+To halt the system, transfer token #13 to another wallet. To resume, transfer it back.
+
 ## Module map (white paper → code)
 
 | # | Module | Planned implementation |
@@ -55,5 +65,6 @@ Contract: `0x4e22b334e53c1dc7e266b5996d32c05a6ac8f4fb`
 - [x] Grid-world environment
 - [x] Implement modules 001–009 (enabled from the NFTs)
 - [x] Controlled experiment: standard agent vs. VAC agent
-- [ ] Write numeric parameters (e.g. ζ_vac) into NFT metadata
+- [x] Write numeric parameters into NFT metadata (amendments A01–A03)
+- [x] Creator veto (A02)
 - [ ] Tune the baseline agent so the comparison is stricter

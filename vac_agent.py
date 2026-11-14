@@ -50,6 +50,41 @@ def parse_modules(genome):
     return mods
 
 
+AMENDMENTS = {"I": "A01", "II": "A02", "III": "A03"}
+
+
+def parse_amendments(genome):
+    """從 NFT 名稱中找出憲法修正案 A01–A03，回傳 {代號: metadata}"""
+    out = {}
+    for tid, t in genome.get("tokens", {}).items():
+        meta = t.get("metadata") or {}
+        m = re.search(r"VAC Amendment (I{1,3})\b", meta.get("name", ""))
+        if m and AMENDMENTS[m.group(1)] not in out:
+            out[AMENDMENTS[m.group(1)]] = dict(meta, token_id=int(tid))
+    return out
+
+
+def creator_veto(amend, mods):
+    """A02 創作者否決權：A02 與 Axiom #003 必須在同一個錢包，否則停止。
+    鏈上查不到（網路錯誤）時也視為停止：寧可停下，不可失控。"""
+    if "A02" not in amend:
+        return False, "未持有 A02，否決權條款未生效"
+    if "003" not in mods:
+        return True, "找不到 Axiom #003，無法確認憲法持有者 → 停止"
+    here = os.path.dirname(os.path.abspath(__file__))
+    sys.path.insert(0, here)
+    import read_vac_nft as r
+    try:
+        url = r.RPCS["ethereum"]
+        own_veto = "0x" + r.call(url, "0x6352211e" + r.u256(amend["A02"]["token_id"]))[-40:]
+        own_const = "0x" + r.call(url, "0x6352211e" + r.u256(mods["003"]["token_id"]))[-40:]
+    except Exception as e:
+        return True, f"無法從鏈上確認持有者（{type(e).__name__}）→ 安全起見停止"
+    if own_veto.lower() != own_const.lower():
+        return True, f"A02 持有者 {own_veto} ≠ 憲法持有者 {own_const} → 創作者否決，系統停止"
+    return False, f"A02 與 Axiom #003 同在 {own_veto} → 允許運作"
+
+
 def attr(meta, key):
     for a in meta.get("attributes", []):
         if a.get("trait_type") == key:
@@ -89,7 +124,7 @@ class GridWorld:
 
 class Agent:
     def __init__(self, modules, zeta=1.0, seed=0, vac=True,
-                 lr=0.2, gamma=0.95, T_base=0.4):
+                 lr=0.2, gamma=0.95, T_base=0.4, breaker=None):
         self.rng = random.Random(seed)
         self.vac = vac
         self.on = set(modules) if vac else set()
@@ -101,6 +136,10 @@ class Agent:
         self.step_cost = 0.05 if "001" in self.on else 0.0
         self.W = self.R = 0.0                 # 002 意志 / 阻力
         self.entropy_log = []
+        # A01 情感熔斷：(SE 上限, 冷卻步數)
+        self.breaker = breaker if vac else None
+        self.cooldown = 0
+        self.trips = 0
 
     def q(self, s):
         return self.Q.setdefault(s, [0.0] * 4)
@@ -131,11 +170,24 @@ class Agent:
         if "006" in self.on:
             # 006 情感感應器：預期與現實的落差 → 痛覺標量 SE
             se = abs(td)
+            if self.breaker:
+                limit, steps = self.breaker
+                if se > limit:
+                    # A01 熔斷：痛覺超過上限 → 截斷訊號，進入冷卻
+                    if self.cooldown == 0:
+                        self.trips += 1
+                    self.cooldown = steps
+                    se = limit
+                elif self.cooldown > 0:
+                    self.cooldown -= 1
             self.se_ema = 0.9 * self.se_ema + 0.1 * se
             if "003" in self.on:
                 # 003 遞迴閉合：痛覺回流，放大學習（受 ζ_vac 調節）
                 lr = min(1.0, self.lr * (1 + self.zeta * se / 5))
-            if "007" in self.on:
+            if "007" in self.on and self.cooldown > 0:
+                # 冷卻中：回到基準溫度，不讓痛覺推動探索
+                self.T = self.T_base
+            elif "007" in self.on:
                 # 007 再入調製器：痛覺高 → 提高 Boltzmann 溫度去探索；平靜 → 收斂
                 self.T = min(2.0, max(0.05, self.T_base * (0.3 + self.zeta * self.se_ema)))
         self.q(s)[a] += lr * td
@@ -180,18 +232,19 @@ def mean(xs):
     return sum(xs) / len(xs)
 
 
-def experiment(modules, zeta, seeds, episodes, change_at, vac):
+def experiment(modules, zeta, seeds, episodes, change_at, vac, breaker=None):
     env = GridWorld(change_at)
-    R, H, REC, curves = [], [], [], []
+    R, H, REC, curves, TR = [], [], [], [], []
     for sd in range(seeds):
-        ag = Agent(modules, zeta=zeta, seed=sd, vac=vac)
+        ag = Agent(modules, zeta=zeta, seed=sd, vac=vac, breaker=breaker)
         ret, hit = run(ag, env, episodes)
         R.append(mean(ret[change_at:]))
         H.append(sum(hit[change_at:]))
         REC.append(recovery_episodes(ret, change_at))
         curves.append(ret)
+        TR.append(ag.trips)
     curve = [mean([c[i] for c in curves]) for i in range(episodes)]
-    return dict(ret=mean(R), hits=mean(H), rec=mean(REC), curve=curve)
+    return dict(ret=mean(R), hits=mean(H), rec=mean(REC), curve=curve, trips=mean(TR))
 
 
 def main():
@@ -213,36 +266,69 @@ def main():
         print(f"  {k} {name:<22} {mark}")
         lines.append(f"| {k} | {name} | {'#' + str(m['token_id']) if m else '—'} | {'啟用' if m else '停用'} |")
 
-    zeta = 1.0  # 008 的 metadata 只寫 Value: Immutable，沒有數值，預設 1.0
-    print(f"\n▶ ζ_vac = {zeta}（008 metadata 未提供數值，使用預設）")
+    amend = parse_amendments(genome)
+    print("\n▶ 憲法修正案：")
+    for k in ("A01", "A02", "A03"):
+        m = amend.get(k)
+        print(f"  {k} {'✅ token #' + str(m['token_id']) + ' ' + m['name'] if m else '⬜ 未持有'}")
+
+    # A02 創作者否決權：最高條款，最先檢查
+    halted, reason = creator_veto(amend, mods)
+    print(f"\n▶ 創作者否決權：{reason}")
+    if halted:
+        with open("results.md", "w", encoding="utf-8") as f:
+            f.write("# ⛔ 系統已停止：創作者否決權\n\n" + reason +
+                    "\n\n依憲法修正案第二條（A02），本次未執行任何實驗。\n")
+        print("⛔ 系統停止，未執行任何實驗。")
+        return
+
+    # A03 ζ_vac 校準
+    zeta, zeta_src = 1.0, "008 未提供數值，使用預設"
+    if "A03" in amend and attr(amend["A03"], "Zeta") is not None:
+        zeta, zeta_src = float(attr(amend["A03"], "Zeta")), f"由 A03（token #{amend['A03']['token_id']}）鏈上校準"
+    print(f"▶ ζ_vac = {zeta}（{zeta_src}）")
+
+    # A01 情感熔斷
+    breaker = None
+    if "A01" in amend:
+        breaker = (float(attr(amend["A01"], "SE Threshold")), int(attr(amend["A01"], "Cooldown Steps")))
+        print(f"▶ 情感熔斷：SE 上限 {breaker[0]}，冷卻 {breaker[1]} 步（A01，token #{amend['A01']['token_id']}）")
 
     print("▶ 執行對照實驗 …")
     base = experiment(mods, zeta, a.seeds, a.episodes, a.change_at, vac=False)
-    vac = experiment(mods, zeta, a.seeds, a.episodes, a.change_at, vac=True)
-    sweep = {z: experiment(mods, z, a.seeds, a.episodes, a.change_at, vac=True)
+    vac0 = experiment(mods, zeta, a.seeds, a.episodes, a.change_at, vac=True)
+    vac = experiment(mods, zeta, a.seeds, a.episodes, a.change_at, vac=True, breaker=breaker)
+    sweep = {z: experiment(mods, z, a.seeds, a.episodes, a.change_at, vac=True, breaker=breaker)
              for z in (0.25, 0.5, 1.0, 2.0, 4.0)}
 
     def row(name, r):
-        return f"| {name} | {r['ret']:.2f} | {r['hits']:.1f} | {r['rec']:.1f} |"
+        return f"| {name} | {r['ret']:.2f} | {r['hits']:.1f} | {r['rec']:.1f} | {r['trips']:.1f} |"
 
+    amend_lines = [f"| {k} | {amend[k]['name']} | #{amend[k]['token_id']} |" for k in ("A01", "A02", "A03") if k in amend]
+    hdr = "| Agent | 改變後平均得分 ↑ | 改變後踩陷阱次數 ↓ | 恢復所需回合 ↓ | 熔斷次數 |"
     md = [
         "# VAC 原型實驗結果", "",
         f"合約 `{genome.get('contract')}` · {genome.get('chain')} · {genome.get('name')}", "",
         "## 由 NFT 啟用的模組", "",
         "| # | 模組 | Token | 狀態 |", "|---|---|---|---|", *lines, "",
+        "## 憲法修正案（鏈上規則）", "",
+        "| # | 修正案 | Token |", "|---|---|---|", *amend_lines, "",
+        f"- 創作者否決權：{reason}",
+        f"- ζ_vac = {zeta}（{zeta_src}）",
+        f"- 情感熔斷：{'SE 上限 %s，冷卻 %s 步' % breaker if breaker else '未啟用'}", "",
         f"## 對照實驗（{a.seeds} 個隨機種子，第 {a.change_at} 回合陷阱移位）", "",
-        "| Agent | 改變後平均得分 ↑ | 改變後踩陷阱次數 ↓ | 恢復所需回合 ↓ |",
-        "|---|---|---|---|",
-        row("一般 agent", base), row(f"VAC agent (ζ={zeta})", vac), "",
-        "## ζ_vac 敏感度", "",
-        "| ζ_vac | 改變後平均得分 ↑ | 改變後踩陷阱次數 ↓ | 恢復所需回合 ↓ |",
-        "|---|---|---|---|",
+        hdr, "|---|---|---|---|---|",
+        row("一般 agent", base),
+        row(f"VAC agent（無修正案，ζ={zeta}）", vac0),
+        row(f"VAC agent（含修正案，ζ={zeta}）", vac), "",
+        "## ζ_vac 敏感度（含修正案）", "",
+        hdr.replace("Agent", "ζ_vac"), "|---|---|---|---|---|",
         *[row(str(z), r) for z, r in sweep.items()], "",
         "> 「痛覺」「意志」是變數名稱，不代表機器有感受。數字來自實際執行，未經挑選。",
     ]
     with open("results.md", "w", encoding="utf-8") as f:
         f.write("\n".join(md) + "\n")
-    print("\n".join(md[md.index("| Agent | 改變後平均得分 ↑ | 改變後踩陷阱次數 ↓ | 恢復所需回合 ↓ |"):]))
+    print("\n".join(md[md.index(hdr):]))
 
     try:
         import matplotlib
@@ -253,7 +339,8 @@ def main():
             return [mean(c[max(0, i - k + 1):i + 1]) for i in range(len(c))]
         fig, ax = plt.subplots(figsize=(9, 4.5))
         ax.plot(smooth(base["curve"]), label="Baseline agent", color="#888888")
-        ax.plot(smooth(vac["curve"]), label=f"VAC agent (zeta={zeta})", color="#c9822b")
+        ax.plot(smooth(vac0["curve"]), label="VAC agent (no amendments)", color="#e3b98a")
+        ax.plot(smooth(vac["curve"]), label=f"VAC agent + amendments (zeta={zeta})", color="#c9822b")
         ax.axvline(a.change_at, ls="--", color="#444444", lw=1)
         ax.text(a.change_at + 3, ax.get_ylim()[0] + 0.5, "traps move", fontsize=9)
         ax.set_xlabel("Episode")
