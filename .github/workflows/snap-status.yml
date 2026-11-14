@@ -1,0 +1,31 @@
+name: Snapshot status page
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/snap-status.yml
+      - index.html
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  snap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wait for Pages deploy
+        run: sleep 60
+      - name: Screenshot live page
+        run: |
+          google-chrome --headless=new --no-sandbox --disable-gpu --hide-scrollbars \
+            --window-size=420,1500 --virtual-time-budget=20000 \
+            --screenshot=tools/status_live.png "https://kycat2026-ui.github.io/vac-protocol/?t=$(date +%s)"
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f tools/status_live.png
+          git commit -m "Snapshot live status page" || echo "No changes"
+          git pull --rebase && git push
