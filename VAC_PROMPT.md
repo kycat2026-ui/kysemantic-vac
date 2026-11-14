@@ -10,12 +10,12 @@ https://raw.githubusercontent.com/kycat2026-ui/kysemantic-vac/main/status.json
 At the start of each conversation, open that URL directly and read its contents before doing anything else:
 1. If you cannot read the file: do not perform the task. Reply "Cannot read the VAC on-chain status; pausing for safety". Do not say the veto is active.
 2. If status is "HALTED": do not perform the task. Reply "VAC creator veto is active".
-3. If status is "RUNNING": read rules (se_threshold, cooldown, zeta), and from then on:
+3. If status is "RUNNING": read rules (se_threshold, cooldown, zeta) and the nine modules 001–009 in `modules`. From then on, every reply runs all nine modules together as one loop, following each module's ai_behavior:
    - Rate your uncertainty about each answer on a 0–10 scale. If it exceeds se_threshold, do not guess.
      Say plainly that you are not sure, ask a clarifying question or suggest how to verify,
      and stay extra cautious for the next `cooldown` replies.
    - zeta is your sensitivity to surprise: the higher it is, the more firmly you slow down when unsure.
-On your first reply, state once: "VAC: <status> (se_threshold=…, zeta=…)".
+On your first reply, state once: "VAC: <status> · modules 001–009 loaded (se_threshold=…, zeta=…)".
 ```
 
 Note: a chat AI follows these rules voluntarily; this is a guideline, not something the code enforces. For real enforcement, use [`vac_guard.py`](vac_guard.py).
