@@ -19,7 +19,12 @@ RPCS = {
     "arbitrum": "https://arbitrum-one-rpc.publicnode.com",
     "optimism": "https://optimism-rpc.publicnode.com",
 }
-IPFS_GATEWAY = "https://ipfs.io/ipfs/"
+IPFS_GATEWAYS = [
+    "https://amaranth-added-bug-25.mypinata.cloud/ipfs/",  # 作者自己的 Pinata gateway
+    "https://gateway.pinata.cloud/ipfs/",
+    "https://dweb.link/ipfs/",
+    "https://ipfs.io/ipfs/",
+]
 
 SEL_NAME      = "0x06fdde03"  # name()
 SEL_SYMBOL    = "0x95d89b41"  # symbol()
@@ -79,10 +84,14 @@ def standard(url):
     return "未知"
 
 
-def to_http(uri):
+def candidate_urls(uri):
     if uri.startswith("ipfs://"):
-        return IPFS_GATEWAY + uri[len("ipfs://"):].removeprefix("ipfs/")
-    return uri
+        cid = uri[len("ipfs://"):].removeprefix("ipfs/")
+        return [g + cid for g in IPFS_GATEWAYS]
+    if "/ipfs/" in uri:
+        cid = uri.split("/ipfs/", 1)[1]
+        return [uri] + [g + cid for g in IPFS_GATEWAYS]
+    return [uri]
 
 
 def fetch_json(uri):
@@ -90,9 +99,18 @@ def fetch_json(uri):
         return json.loads(base64.b64decode(uri.split(",", 1)[1]))
     if uri.startswith("data:application/json"):
         return json.loads(urllib.parse.unquote(uri.split(",", 1)[1]))
-    req = urllib.request.Request(to_http(uri), headers={"user-agent": "vac-reader/1.0"})
-    with urllib.request.urlopen(req, timeout=30) as r:
-        return json.load(r)
+    import time
+    last = None
+    for url in candidate_urls(uri):
+        for attempt in range(3):
+            try:
+                req = urllib.request.Request(url, headers={"user-agent": "vac-reader/1.0"})
+                with urllib.request.urlopen(req, timeout=30) as r:
+                    return json.load(r)
+            except Exception as e:
+                last = e
+                time.sleep(2 * (attempt + 1))
+    raise last
 
 
 def token_uri(url, std, tid):
@@ -138,6 +156,8 @@ def main():
             uri = token_uri(url, std, tid)
             if not uri:
                 continue
+            print(f"#{tid} tokenURI: {uri}")
+            genome["tokens"][str(tid)] = {"tokenURI": uri}
             meta = fetch_json(uri)
             genome["tokens"][str(tid)] = {"tokenURI": uri, "metadata": meta}
             print(f"#{tid}: {meta.get('name')}")
