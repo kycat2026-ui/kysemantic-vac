@@ -9,8 +9,10 @@ print("交易:", "找不到" if tx is None else ("等待中（pending）" if tx.
 rc = rpc(URL, "eth_getTransactionReceipt", [TX])
 if rc:
     print("結果:", "成功" if rc.get("status") == "0x1" else "失敗")
-for t in (12, 13, 14):
+for t in (12, 13, 14, 15):
     try:
-        print(f"#{t}:", decode_string(call(URL, "0xc87b56dd" + u256(t))))
+        uri = decode_string(call(URL, "0xc87b56dd" + u256(t)))
+        owner = "0x" + call(URL, "0x6352211e" + u256(t))[-40:]
+        print(f"#{t}: {uri}  owner={owner}")
     except Exception:
         print(f"#{t}: 尚未鑄造")
