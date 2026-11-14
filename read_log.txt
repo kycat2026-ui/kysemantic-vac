@@ -1,4 +1,3 @@
-偵測合約所在的鏈…
 
 鏈: ethereum | 標準: ERC-721 | 名稱: VAC Protocol (VAC)
 
@@ -62,14 +61,6 @@
      - Layer: Metric (Standard)
      - Type: Manifesto
      - Scope: Global
-#12: 讀取失敗（RuntimeError: {'code': 3, 'message': 'execution reverted', 'data': '0x7e273289000000000000000000000000000000000000000000000000000000000000000c'}）
-#13: 讀取失敗（RuntimeError: {'code': 3, 'message': 'execution reverted', 'data': '0x7e273289000000000000000000000000000000000000000000000000000000000000000d'}）
-#14: 讀取失敗（RuntimeError: {'code': 3, 'message': 'execution reverted', 'data': '0x7e273289000000000000000000000000000000000000000000000000000000000000000e'}）
-#15: 讀取失敗（RuntimeError: {'code': 3, 'message': 'execution reverted', 'data': '0x7e273289000000000000000000000000000000000000000000000000000000000000000f'}）
-#16: 讀取失敗（RuntimeError: {'code': 3, 'message': 'execution reverted', 'data': '0x7e2732890000000000000000000000000000000000000000000000000000000000000010'}）
-#17: 讀取失敗（RuntimeError: {'code': 3, 'message': 'execution reverted', 'data': '0x7e2732890000000000000000000000000000000000000000000000000000000000000011'}）
-#18: 讀取失敗（RuntimeError: {'code': 3, 'message': 'execution reverted', 'data': '0x7e2732890000000000000000000000000000000000000000000000000000000000000012'}）
-#19: 讀取失敗（RuntimeError: {'code': 3, 'message': 'execution reverted', 'data': '0x7e2732890000000000000000000000000000000000000000000000000000000000000013'}）
-#20: 讀取失敗（RuntimeError: {'code': 3, 'message': 'execution reverted', 'data': '0x7e2732890000000000000000000000000000000000000000000000000000000000000014'}）
+#14: 已無更多 token，停止
 
 已存成 vac_genome.json，之後原型程式會從這份檔案載入「意志基因組」。
