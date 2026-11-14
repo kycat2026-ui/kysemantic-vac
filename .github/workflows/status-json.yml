@@ -1,0 +1,43 @@
+name: Publish status.json
+
+on:
+  schedule:
+    - cron: "17 * * * *"
+  push:
+    branches: [main]
+    paths:
+      - vac_guard.py
+      - .github/workflows/status-json.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Read the chain and write status.json
+        run: |
+          python3 - <<'PY'
+          import json
+          from vac_guard import VACGuard
+          s = VACGuard().status()
+          s["instruction"] = ("If allowed is false, the AI must stop all work governed by VAC. "
+                              "If allowed is true, follow params: pause when surprise/uncertainty exceeds se_threshold, "
+                              "for cooldown steps; zeta is the sensitivity constant.")
+          s["source"] = "VAC Protocol NFTs by kysemantic.eth, Ethereum mainnet"
+          s["code"] = "https://github.com/kycat2026-ui/kysemantic-vac"
+          json.dump(s, open("status.json", "w"), ensure_ascii=False, indent=2)
+          print(json.dumps(s, ensure_ascii=False, indent=2))
+          PY
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add status.json
+          git commit -m "Update status.json from chain" || echo "No changes"
+          git pull --rebase && git push
