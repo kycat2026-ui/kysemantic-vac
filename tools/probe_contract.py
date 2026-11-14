@@ -50,3 +50,17 @@ try:
         print("Etherscan 頁面中找不到原始碼區塊")
 except Exception as e:
     print("Etherscan 抓取失敗:", e)
+
+# 列出 bytecode 中所有函式選擇器，並查詢 4byte.directory 取得名稱
+sels = sorted(set(re.findall(r"63([0-9a-f]{8})", code[2:])))
+print(f"\n找到 {len(sels)} 個選擇器：")
+for s in sels:
+    name = "?"
+    try:
+        u = f"https://www.4byte.directory/api/v1/signatures/?hex_signature=0x{s}"
+        r = json.load(urllib.request.urlopen(urllib.request.Request(u, headers={"user-agent": "vac"}), timeout=15))
+        if r.get("results"):
+            name = " | ".join(x["text_signature"] for x in r["results"][:3])
+    except Exception as e:
+        name = f"(查詢失敗 {e})"
+    print(f"  0x{s}  {name}")
