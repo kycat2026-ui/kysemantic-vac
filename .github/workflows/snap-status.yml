@@ -22,7 +22,7 @@ jobs:
         run: |
           google-chrome --headless=new --no-sandbox --disable-gpu --hide-scrollbars \
             --window-size=420,1500 --virtual-time-budget=20000 \
-            --screenshot=tools/status_live.png "https://kycat2026-ui.github.io/vac-protocol/?t=$(date +%s)"
+            --screenshot=tools/status_live.png "https://kycat2026-ui.github.io/kysemantic-vac/?t=$(date +%s)"
       - run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

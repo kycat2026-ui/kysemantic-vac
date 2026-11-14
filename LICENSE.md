@@ -1,4 +1,4 @@
-Required Notice: Copyright (c) 2026 kysemantic.eth (https://github.com/kycat2026-ui/vac-protocol)
+Required Notice: Copyright (c) 2026 kysemantic.eth (https://github.com/kycat2026-ui/kysemantic-vac)
 
 # PolyForm Noncommercial License 1.0.0
 

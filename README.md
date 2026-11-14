@@ -1,6 +1,8 @@
-# VAC Protocol
+# kysemantic-vac · VAC Protocol
 
-**🟢 Live status: https://kycat2026-ui.github.io/vac-protocol/**
+> **VAC = Volitional-Affective Collapse** (by kysemantic.eth). This is unrelated to other projects that share the abbreviation "VAC", such as Verifiable Agent Claims.
+
+**🟢 Live status: https://kycat2026-ui.github.io/kysemantic-vac/**
 
 A working prototype of the **VAC System (Volitional-Affective Collapse Protocol) V1.0** by kysemantic.eth.
 
@@ -102,7 +104,7 @@ VAC is not the first attempt at these ideas. Below is related work, and how VAC 
 This code is licensed under the [PolyForm Noncommercial License 1.0.0](LICENSE.md).
 
 - ✅ **Free for noncommercial use**: personal projects, study, research, education, and nonprofits.
-- 💼 **Commercial use requires a license**: companies or commercial products that want to use this code must get a commercial license from the author. To ask, open an [Issue](https://github.com/kycat2026-ui/vac-protocol/issues) or contact kysemantic.eth.
+- 💼 **Commercial use requires a license**: companies or commercial products that want to use this code must get a commercial license from the author. To ask, open an [Issue](https://github.com/kycat2026-ui/kysemantic-vac/issues) or contact kysemantic.eth.
 
 This license covers this repository's code only. The VAC Protocol white paper, NFT artwork and metadata stay the property of kysemantic.eth.
 
