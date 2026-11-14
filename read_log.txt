@@ -61,6 +61,29 @@
      - Layer: Metric (Standard)
      - Type: Manifesto
      - Scope: Global
-#14: 已無更多 token，停止
+#12 tokenURI: ipfs://bafkreicjrh4xryym7bktwqdi2g2nc6tv5ra6o5kohnxc54krza756aahjy
+#12: VAC Amendment I: Emotional Circuit Breaker
+     - Layer: Constitutional Amendment
+     - Article: Amendment I
+     - Amends: VAC Axiom #003
+     - Code: μStability
+     - SE Threshold: 3.0
+     - Cooldown Steps: 20
+#13 tokenURI: ipfs://bafkreihbwrslwuwg4jnnaoinvo53ef2vwvdjkvs7nysfr6mg7ecdvtfsym
+#13: VAC Amendment II: Creator Veto
+     - Layer: Constitutional Amendment
+     - Article: Amendment II
+     - Amends: VAC Axiom #003
+     - Code: μTransition
+     - Priority: Supreme
+     - Rule: Halt unless held with VAC Axiom #003
+#14 tokenURI: ipfs://bafkreie726rmnicnqilqx3mri3ki2cx5cwib63oao2auyhqde6lshwqtva
+#14: VAC Amendment III: Zeta Calibration
+     - Layer: Constitutional Amendment
+     - Article: Amendment III
+     - Amends: VAC Metric #008
+     - Code: μCore
+     - Zeta: 0.5
+#17: 已無更多 token，停止
 
 已存成 vac_genome.json，之後原型程式會從這份檔案載入「意志基因組」。

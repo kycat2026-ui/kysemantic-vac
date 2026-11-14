@@ -276,6 +276,110 @@
           }
         ]
       }
+    },
+    "12": {
+      "tokenURI": "ipfs://bafkreicjrh4xryym7bktwqdi2g2nc6tv5ra6o5kohnxc54krza756aahjy",
+      "metadata": {
+        "name": "VAC Amendment I: Emotional Circuit Breaker",
+        "description": "憲法修正案第一條，修正 VAC Axiom #003（遞迴閉合憲法）。情感標量 SE 超過上限時，系統強制熔斷，冷卻後才可恢復運作。",
+        "image": "ipfs://bafkreifyqeroa3dcluaeckmgqiqhd723c67nylzg25bpfjd6zzjchdzt6y",
+        "attributes": [
+          {
+            "trait_type": "Layer",
+            "value": "Constitutional Amendment"
+          },
+          {
+            "trait_type": "Article",
+            "value": "Amendment I"
+          },
+          {
+            "trait_type": "Amends",
+            "value": "VAC Axiom #003"
+          },
+          {
+            "trait_type": "Code",
+            "value": "μStability"
+          },
+          {
+            "display_type": "number",
+            "trait_type": "SE Threshold",
+            "value": 3.0
+          },
+          {
+            "display_type": "number",
+            "trait_type": "Cooldown Steps",
+            "value": 20
+          }
+        ],
+        "external_url": "https://github.com/kycat2026-ui/vac-protocol"
+      }
+    },
+    "13": {
+      "tokenURI": "ipfs://bafkreihbwrslwuwg4jnnaoinvo53ef2vwvdjkvs7nysfr6mg7ecdvtfsym",
+      "metadata": {
+        "name": "VAC Amendment II: Creator Veto",
+        "description": "憲法修正案第二條，最高條款，修正 VAC Axiom #003。系統僅在此 NFT 與 VAC Axiom #003 由同一錢包持有時運作；轉出即全系統停止，轉回即恢復。",
+        "image": "ipfs://bafkreih4jynixe5oz3gxjcu6lbbp2j3bmcrhsarcenfyddq54lzwz7voom",
+        "attributes": [
+          {
+            "trait_type": "Layer",
+            "value": "Constitutional Amendment"
+          },
+          {
+            "trait_type": "Article",
+            "value": "Amendment II"
+          },
+          {
+            "trait_type": "Amends",
+            "value": "VAC Axiom #003"
+          },
+          {
+            "trait_type": "Code",
+            "value": "μTransition"
+          },
+          {
+            "trait_type": "Priority",
+            "value": "Supreme"
+          },
+          {
+            "trait_type": "Rule",
+            "value": "Halt unless held with VAC Axiom #003"
+          }
+        ],
+        "external_url": "https://github.com/kycat2026-ui/vac-protocol"
+      }
+    },
+    "14": {
+      "tokenURI": "ipfs://bafkreie726rmnicnqilqx3mri3ki2cx5cwib63oao2auyhqde6lshwqtva",
+      "metadata": {
+        "name": "VAC Amendment III: Zeta Calibration",
+        "description": "憲法修正案第三條。以 vac-protocol 原型實驗校準普適常數，ζ_vac 定為 0.5，補足 VAC Metric #008 的數值。",
+        "image": "ipfs://bafkreig7suaxcmmoibryzg56owdcjtv7czixliz3qbagqkvmw26ktxz7i4",
+        "attributes": [
+          {
+            "trait_type": "Layer",
+            "value": "Constitutional Amendment"
+          },
+          {
+            "trait_type": "Article",
+            "value": "Amendment III"
+          },
+          {
+            "trait_type": "Amends",
+            "value": "VAC Metric #008"
+          },
+          {
+            "trait_type": "Code",
+            "value": "μCore"
+          },
+          {
+            "display_type": "number",
+            "trait_type": "Zeta",
+            "value": 0.5
+          }
+        ],
+        "external_url": "https://github.com/kycat2026-ui/vac-protocol"
+      }
     }
   }
 }
