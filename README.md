@@ -81,6 +81,17 @@ See [PREREGISTRATION.md](PREREGISTRATION.md) and [bench_results.md](bench_result
 - In other words, in this simple task the current implementation of the "pain" mechanism has not shown an independent contribution. This could be because the task is too simple, or because the implementation needs improving. It does not prove the idea wrong, but it does not support it yet either.
 - The earlier simple comparison (untuned Baseline) overstated VAC's advantage. The pre-registered results here take precedence.
 
+## Rigorous benchmark v1 (pre-registered)
+
+We first wrote [PREREGISTRATION.md](PREREGISTRATION.md) (hypotheses, metrics, success criteria), then ran the benchmark. Both sides were tuned with the same procedure and evaluated on 100 held-out seeds. Full numbers: [bench_results.md](bench_results.md).
+
+**Honest summary:**
+- ✅ All three pre-registered criteria pass: VAC beats the tuned Baseline in E1 trap-shift and E2 goal-shift, and is not worse in E3 stationary.
+- ⚠️ **But the ablations show the advantage comes almost entirely from 001 (the per-step cost).** Removing the whole pain loop (006, which also disables 003 and 007) barely changes the result.
+- ⚠️ Exploratory check: a Baseline with only the 001 step cost **already roughly matches VAC** (E1 no significant difference; E2 VAC is slightly worse; E3 VAC is slightly better).
+- Conclusion: **in this small environment, the "pain → learning/exploration" loop as currently implemented does not yet show an independent benefit.** The quick-demo results above used an untuned Baseline and overstated the effect.
+- What still stands: the on-chain governance (veto, parameters read from chain, fail-safe) works as designed.
+
 ## Constitutional amendments (on-chain rules)
 
 | Token | Amendment | What the program does |
