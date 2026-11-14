@@ -72,6 +72,15 @@ The plan was committed first in [PREREGISTRATION.md](PREREGISTRATION.md). Result
 
 **What this means:** in this grid world, the value of the "pain" mechanisms is not yet demonstrated. Either the environment is too simple to need them, or the design needs work. The next step is to test in harder environments.
 
+## Rigorous benchmark v1 (pre-registered)
+
+See [PREREGISTRATION.md](PREREGISTRATION.md) and [bench_results.md](bench_results.md). Plain-language summary:
+
+- ✅ All three pre-registered success criteria pass: VAC full beats the tuned Baseline in both shifting environments and costs nothing in the stable one.
+- ⚠️ **But the ablations show the advantage comes almost entirely from 001 (step cost).** Removing the affect signal (006, which also disables 003 and 007) barely changes the result. A Baseline with only the step cost added roughly matches VAC full (exploratory analysis).
+- In other words, in this simple task the current implementation of the "pain" mechanism has not shown an independent contribution. This could be because the task is too simple, or because the implementation needs improving. It does not prove the idea wrong, but it does not support it yet either.
+- The earlier simple comparison (untuned Baseline) overstated VAC's advantage. The pre-registered results here take precedence.
+
 ## Constitutional amendments (on-chain rules)
 
 | Token | Amendment | What the program does |
