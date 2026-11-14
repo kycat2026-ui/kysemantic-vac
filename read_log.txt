@@ -1,0 +1,17 @@
+偵測合約所在的鏈…
+
+鏈: ethereum | 標準: ERC-721 | 名稱: VAC Protocol (VAC)
+
+#0: 讀取失敗（RuntimeError）
+#1: 讀取失敗（UnboundLocalError）
+#2: 讀取失敗（UnboundLocalError）
+#3: 讀取失敗（UnboundLocalError）
+#4: 讀取失敗（UnboundLocalError）
+#5: 讀取失敗（UnboundLocalError）
+#6: 讀取失敗（UnboundLocalError）
+#7: 讀取失敗（UnboundLocalError）
+#8: 讀取失敗（UnboundLocalError）
+#9: 讀取失敗（UnboundLocalError）
+#10: 讀取失敗（UnboundLocalError）
+
+已存成 vac_genome.json，之後原型程式會從這份檔案載入「意志基因組」。
