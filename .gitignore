@@ -1,3 +1,7 @@
 __pycache__/
 *.pyc
 vac_genome.json
+all_cards.png
+png/
+vac_cards.zip
+vac_ultimate_svgs/

@@ -8,7 +8,7 @@ read_vac_nft.py — 從鏈上讀取 VAC Protocol NFT 的 metadata（唯讀，不
     python3 read_vac_nft.py --ids 0-10      # 指定 token 範圍
 只用 Python 標準函式庫，不需安裝任何套件。
 """
-import argparse, json, urllib.request
+import argparse, base64, json, urllib.parse, urllib.request
 
 CONTRACT = "0x4e22b334e53c1dc7e266b5996d32c05a6ac8f4fb"
 
@@ -87,10 +87,8 @@ def to_http(uri):
 
 def fetch_json(uri):
     if uri.startswith("data:application/json;base64,"):
-        import base64
         return json.loads(base64.b64decode(uri.split(",", 1)[1]))
     if uri.startswith("data:application/json"):
-        import urllib.parse
         return json.loads(urllib.parse.unquote(uri.split(",", 1)[1]))
     req = urllib.request.Request(to_http(uri), headers={"user-agent": "vac-reader/1.0"})
     with urllib.request.urlopen(req, timeout=30) as r:
@@ -146,7 +144,7 @@ def main():
             for at in meta.get("attributes", []):
                 print(f"     - {at.get('trait_type')}: {at.get('value')}")
         except Exception as e:
-            print(f"#{tid}: 讀取失敗（{type(e).__name__}）")
+            print(f"#{tid}: 讀取失敗（{type(e).__name__}: {e}）")
 
     with open(a.out, "w", encoding="utf-8") as f:
         json.dump(genome, f, ensure_ascii=False, indent=2)
