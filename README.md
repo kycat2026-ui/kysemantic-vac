@@ -68,3 +68,13 @@ To halt the system, transfer token #13 to another wallet. To resume, transfer it
 - [x] Write numeric parameters into NFT metadata (amendments A01–A03)
 - [x] Creator veto (A02)
 - [ ] Tune the baseline agent so the comparison is stricter
+
+## License
+
+This code is licensed under the [PolyForm Noncommercial License 1.0.0](LICENSE.md).
+
+- ✅ **Free for noncommercial use**: personal projects, study, research, education, and nonprofits.
+- 💼 **Commercial use requires a license**: companies or commercial products that want to use this code must get a commercial license from the author. To ask, open an [Issue](https://github.com/kycat2026-ui/vac-protocol/issues) or contact kysemantic.eth.
+
+This license covers this repository's code only. The VAC Protocol white paper, NFT artwork and metadata stay the property of kysemantic.eth.
+
