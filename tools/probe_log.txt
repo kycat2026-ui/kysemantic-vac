@@ -1,0 +1,23 @@
+bytecode bytes: 9650
+   safeMint(address,string)
+   safeMint(address)
+   safeMint(address,uint256)
+   safeMint(address,uint256,string)
+   mint(address,string)
+   mint(address)
+   mint(address,uint256)
+   mint(string)
+   mintNFT(address,string)
+   mintTo(address,string)
+   setTokenURI(uint256,string)
+   setBaseURI(string)
+✅ owner()
+✅ transferOwnership(address)
+   totalSupply()
+   burn(uint256)
+   pause()
+✅ renounceOwnership()
+owner(): 0xeace739e1436738caeef04a509a169f3734692b9
+ownerOf(1): 0xeace739e1436738caeef04a509a169f3734692b9
+ownerOf(4): 0xeace739e1436738caeef04a509a169f3734692b9
+Etherscan 抓取失敗: HTTP Error 403: Forbidden
