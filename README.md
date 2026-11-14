@@ -61,6 +61,17 @@ Contract: `0x4e22b334e53c1dc7e266b5996d32c05a6ac8f4fb`
 
 The earlier simple comparison (`results.md`) used an untuned baseline and overstated the effect. It is kept for the record.
 
+## Rigorous benchmark (pre-registered) — key findings
+
+The plan was committed first in [PREREGISTRATION.md](PREREGISTRATION.md). Results are in [bench_results.md](bench_results.md).
+
+- ✅ All three pre-registered criteria pass: against a tuned Baseline, VAC is better in E1 trap-shift, E2 goal-shift and E3 stationary.
+- ⚠️ **But the ablations show the advantage comes almost entirely from 001 (step cost)**. Removing the pain signal (006), the pain→learning-rate feedback (003), the pain→exploration link (007) or the circuit breaker (A01) makes no significant difference.
+- ⚠️ Exploratory: a Baseline with only the step cost added roughly matches VAC full (E1 not significant, E2 VAC worse, E3 VAC slightly better).
+- The earlier figure of "about 50% faster recovery" came from comparing against an untuned Baseline, so it overstated the effect.
+
+**What this means:** in this grid world, the value of the "pain" mechanisms is not yet demonstrated. Either the environment is too simple to need them, or the design needs work. The next step is to test in harder environments.
+
 ## Constitutional amendments (on-chain rules)
 
 | Token | Amendment | What the program does |
@@ -115,8 +126,9 @@ VAC is not the first attempt at these ideas. Below is related work, and how VAC 
 - [x] Controlled experiment: standard agent vs. VAC agent
 - [x] Write numeric parameters into NFT metadata (amendments A01–A03)
 - [x] Creator veto (A02)
-- [ ] Tune the baseline agent so the comparison is stricter
-- [ ] Ablation: switch off one module at a time to see which one matters
+- [x] Tune the baseline agent so the comparison is stricter (benchmark v1)
+- [x] Ablation: switch off one module at a time (benchmark v1)
+- [ ] Test the pain mechanisms in harder environments (noise, frequent changes, larger maps)
 - [ ] Signature-based veto: the holder signs a message to halt without transferring the NFT
 - [ ] Per-episode circuit breaker (cumulative pain) as an alternative to A01, compared experimentally
 - [ ] Apply "brake on uncertainty" to language models and test whether it reduces hallucination
