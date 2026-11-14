@@ -10,6 +10,16 @@ The nine modules in the white paper are being turned into runnable code. The age
 
 > "Pain", "will" and "survival drive" are names for system variables. They do not mean the machine has feelings or consciousness.
 
+## Rigorous benchmark v1 (pre-registered): honest findings
+
+Pre-registration: [PREREGISTRATION.md](PREREGISTRATION.md) · Full results: [bench_results.md](bench_results.md)
+
+- ✅ All three pre-registered criteria pass: VAC beats a **tuned** Baseline on held-out seeds, both after the environment changes (E1, E2) and in a stable environment (E3).
+- ⚠️ **But the ablations show the advantage comes almost entirely from 001 (a small cost per step)**, a well-known reward-shaping trick. Removing the "pain" signal (006, which also disables 003 and 007) does not lower performance; it is even slightly higher.
+- ⚠️ In the exploratory comparison, a Baseline with only the step cost added performs about the same as VAC full: a tie in E1, VAC slightly worse in E2, VAC slightly better in E3.
+- Conclusion: **in this small grid world, the "pain → learning/exploration" mechanisms bring no measurable benefit yet.** The earlier "30% faster recovery" result compared against an untuned Baseline and is superseded by this benchmark.
+- What VAC demonstrates is **on-chain governance** (NFTs decide parameters and the on/off switch), not a stronger learning algorithm.
+
 ## Quick start: the NFTs are the entry point
 
 ```bash

@@ -48,4 +48,5 @@ Baseline and VAC each get the same hyperparameter search over T (or T_base for V
 
 ## Amendments
 
-(none yet)
+**Amendment 1 (added after v1 results; does not change any pre-registered analysis):**
+The v1 ablations showed that removing 001 (the step cost) erases most of VAC's advantage. So an **exploratory** comparison was added: a Baseline with only the 001 step cost, tuned the same way. It is marked "exploratory" in bench_results.md and is not used to judge the pre-registered success criteria.
