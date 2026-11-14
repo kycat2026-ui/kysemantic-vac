@@ -21,3 +21,34 @@ owner(): 0xeace739e1436738caeef04a509a169f3734692b9
 ownerOf(1): 0xeace739e1436738caeef04a509a169f3734692b9
 ownerOf(4): 0xeace739e1436738caeef04a509a169f3734692b9
 Etherscan 抓取失敗: HTTP Error 403: Forbidden
+
+找到 29 個選擇器：
+  0x01ffc9a7  pizza_mandate_apology(uint256) | supportsInterface(bytes4)
+  0x05f5e100  ?
+  0x06fdde03  transfer_attention_tg_invmru_6e7aa58(bool,address,address) | message_hour(uint256,int8,uint16,bytes32) | name()
+  0x081812fc  getApproved(uint256)
+  0x095ea7b3  _SIMONdotBLACK_(int8[],int224[],int256,int64,uint248[]) | watch_tg_invmru_2f69f1b(address,address) | sign_szabo_bytecode(bytes16,uint128)
+  0x150b7a02  onERC721Received(address,address,uint256,bytes)
+  0x23b872dd  func_nZHTch(address,address,uint256,((address,uint256),uint256,uint256),bytes) | func_chVsN(address,address,uint256,address,uint256,uint256,uint256,bytes) | watch_tg_invmru_faebe36(bool,bool,bool)
+  0x42842e0e  safeTransferFrom(address,address,uint256)
+  0x43000814  ?
+  0x49064906  ?
+  0x575f6040  ?
+  0x6352211e  ownerOf(uint256)
+  0x64656600  ?
+  0x70a08231  watch_tg_invmru_119a5a98(address,uint256,uint256) | passphrase_calculate_transfer(uint64,address) | branch_passphrase_public(uint256,bytes8)
+  0x715018a6  renounceOwnership()
+  0x73839616  ?
+  0x7565b611  ?
+  0x8da5cb5b  ideal_warn_timed(uint256,uint128) | owner()
+  0x9190611c  ?
+  0x95d89b41  watch_tg_invmru_4f9dd3f(address,uint256) | link_classic_internal(uint64,int64) | symbol()
+  0xa22cb465  niceFunctionHerePlzClick943230089(address,bool) | setApprovalForAll(address,bool)
+  0xb1115611  ?
+  0xb88d4fde  safeTransferFrom(address,address,uint256,bytes)
+  0xc4a11628  ?
+  0xc87b56dd  tokenURI(uint256)
+  0xe985e9c5  isApprovedForAll(address,address)
+  0xef529ed3  ?
+  0xf2fde38b  _SIMONdotBLACK_(int8[],uint256,address,bytes8,int96) | transferOwnership(address)
+  0xffffffff  uWjK9(uint256) | LOCK8605463013() | test266151307()
