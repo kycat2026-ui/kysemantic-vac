@@ -1,5 +1,7 @@
 # VAC Protocol
 
+**🟢 Live status: https://kycat2026-ui.github.io/vac-protocol/**
+
 A working prototype of the **VAC System (Volitional-Affective Collapse Protocol) V1.0** by kysemantic.eth.
 
 The nine modules in the white paper are being turned into runnable code. The agent loads its "volitional genome" from the VAC Protocol NFTs on-chain.
@@ -68,6 +70,10 @@ To halt the system, transfer token #13 to another wallet. To resume, transfer it
 - [x] Write numeric parameters into NFT metadata (amendments A01–A03)
 - [x] Creator veto (A02)
 - [ ] Tune the baseline agent so the comparison is stricter
+- [ ] Ablation: switch off one module at a time to see which one matters
+- [ ] Signature-based veto: the holder signs a message to halt without transferring the NFT
+- [ ] Per-episode circuit breaker (cumulative pain) as an alternative to A01, compared experimentally
+- [ ] Apply "brake on uncertainty" to language models and test whether it reduces hallucination
 
 ## License
 
