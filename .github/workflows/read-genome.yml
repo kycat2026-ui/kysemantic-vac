@@ -1,6 +1,11 @@
 name: Read NFT genome
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - read_vac_nft.py
+      - .github/workflows/read-genome.yml
   workflow_dispatch:
     inputs:
       chain:
@@ -25,7 +30,7 @@ jobs:
           python-version: "3.12"
       - name: Read NFT metadata on-chain
         run: |
-          ARGS="--ids ${{ inputs.ids }}"
+          IDS="${{ inputs.ids }}"; ARGS="--ids ${IDS:-0-10}"
           if [ -n "${{ inputs.chain }}" ]; then ARGS="$ARGS --chain ${{ inputs.chain }}"; fi
           python3 read_vac_nft.py $ARGS | tee read_log.txt
       - name: Commit results
