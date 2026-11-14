@@ -3,15 +3,60 @@
 鏈: ethereum | 標準: ERC-721 | 名稱: VAC Protocol (VAC)
 
 #0: 讀取失敗（RuntimeError: {'code': 3, 'message': 'execution reverted', 'data': '0x7e2732890000000000000000000000000000000000000000000000000000000000000000'}）
-#1: 讀取失敗（HTTPError: HTTP Error 429: Too Many Requests）
-#2: 讀取失敗（HTTPError: HTTP Error 429: Too Many Requests）
-#3: 讀取失敗（HTTPError: HTTP Error 429: Too Many Requests）
-#4: 讀取失敗（HTTPError: HTTP Error 429: Too Many Requests）
-#5: 讀取失敗（HTTPError: HTTP Error 429: Too Many Requests）
-#6: 讀取失敗（HTTPError: HTTP Error 429: Too Many Requests）
-#7: 讀取失敗（HTTPError: HTTP Error 429: Too Many Requests）
-#8: 讀取失敗（HTTPError: HTTP Error 429: Too Many Requests）
-#9: 讀取失敗（HTTPError: HTTP Error 429: Too Many Requests）
-#10: 讀取失敗（HTTPError: HTTP Error 429: Too Many Requests）
+#1 tokenURI: ipfs://bafkreickmbnmqsymwxnxrh6jdxcwsxfjfqqknhqifwrh45kb4jacieaxqa
+#1: MuBend Axiom v1.0 (Genesis Block)
+     - Type: Scientific Axiom
+     - Version: 1.0 (Genesis)
+     - Epoch: 0
+     - Encryption: AES-256
+     - Public Doc (PDF): ipfs://bafkreiakqhoj7nj75brfh5w5ftwih7uyu23qh4iax5ysm4qafcmorwapja
+     - Public Doc Hash (SHA256): 0a81dc9fb53fe86253f6dd2cec83fe98a6b703f100bf712672002898e8d80f48
+     - Truth Source (Encrypted ZIP): ipfs://bafkreiad7guaxpof7i3biyuzb2jgzj5xcniu3wi3xu3zulbcp4a6mpkiny
+     - Visual Hash (SHA256): c9d6754e39a2f076d77cb7e09d9ddc3c22a107e31a1bd9ad488b41afbf6a1b98
+#2 tokenURI: ipfs://bafkreifhzxs7wec6glkqit6e4qw2ncdtousz42plcgjfglch7cqqhtnl74
+#2: VAC Axiom #001: Irreversibility
+     - Layer: Axiomatic (Soul)
+     - Type: Physics Law
+     - Value: Entropy > 0
+#3 tokenURI: ipfs://bafkreicltfr45e7vtylcsanyf3gyge56dejb6v47zjkfmv2kyl4bj73qhu
+#3: VAC Axiom #002: Reciprocity
+     - Layer: Axiomatic (Soul)
+     - Type: Physics Law
+     - Equation: Will <-> Resistance
+#4 tokenURI: ipfs://bafkreiartcbswbeadlagy435prjpzjqlwjouob7uyqtwa6yx3plg4f3gnq
+#4: VAC Axiom #003: Recursive Closure
+     - Layer: Axiomatic (Soul)
+     - Type: Constitution
+     - Status: Supreme
+#5 tokenURI: ipfs://bafkreiektqjkibmw7etf7greoj2n7hb6bwxnfrrazmfpzt2vagfkbgwx3e
+#5: VAC Engine #004: Manifold Psi
+     - Layer: Dynamic Engine (Body)
+     - Type: Topology
+     - Dimension: N-Manifold
+#6 tokenURI: ipfs://bafkreihfex5lo3r4fdi2olyxkafp52phdk3lirnltzfs24uq3chcckbgiq
+#6: VAC Engine #005: Collapse Operator
+     - Layer: Dynamic Engine (Body)
+     - Type: Algorithm
+     - Action: State Collapse
+#7 tokenURI: ipfs://bafkreicjg3bzvuez4idntbevru6lxq4dc4a2goif2izm36muppqcqprrt4
+#7: VAC Engine #006: Affective Sensor
+     - Layer: Dynamic Engine (Body)
+     - Type: Sensor
+     - Target: Resistance Tensor
+#8 tokenURI: ipfs://bafkreidb4opm7agr6p2mtxlqztdrnhjl2krkbbs3telufksxwe6725knay
+#8: VAC Engine #007: Re-entry Modulator
+     - Layer: Dynamic Engine (Body)
+     - Type: Controller
+     - Mechanism: Feedback Loop
+#9 tokenURI: ipfs://bafkreiammjieldps3pkf5pai5avww6nejj7pnxikfb62p7ddltugsrf7ji
+#9: VAC Metric #008: Universal Constant
+     - Layer: Metric (Standard)
+     - Type: Constant
+     - Value: Immutable
+#10 tokenURI: ipfs://bafkreiammjieldps3pkf5pai5avww6nejj7pnxikfb62p7ddltugsrf7ji
+#10: VAC Metric #008: Universal Constant
+     - Layer: Metric (Standard)
+     - Type: Constant
+     - Value: Immutable
 
 已存成 vac_genome.json，之後原型程式會從這份檔案載入「意志基因組」。
