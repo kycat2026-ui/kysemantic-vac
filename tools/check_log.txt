@@ -1,5 +1,6 @@
 交易: 已上鏈 block 26414408
 結果: 成功
-#12: ipfs://bafkreicjrh4xryym7bktwqdi2g2nc6tv5ra6o5kohnxc54krza756aahjy
-#13: 尚未鑄造
-#14: 尚未鑄造
+#12: ipfs://bafkreicjrh4xryym7bktwqdi2g2nc6tv5ra6o5kohnxc54krza756aahjy  owner=0xeace739e1436738caeef04a509a169f3734692b9
+#13: ipfs://bafkreihbwrslwuwg4jnnaoinvo53ef2vwvdjkvs7nysfr6mg7ecdvtfsym  owner=0xeace739e1436738caeef04a509a169f3734692b9
+#14: ipfs://bafkreie726rmnicnqilqx3mri3ki2cx5cwib63oao2auyhqde6lshwqtva  owner=0xeace739e1436738caeef04a509a169f3734692b9
+#15: 尚未鑄造
