@@ -47,6 +47,28 @@ Contract: `0x4e22b334e53c1dc7e266b5996d32c05a6ac8f4fb`
 
 To halt the system, transfer token #13 to another wallet. To resume, transfer it back.
 
+## Related work
+
+VAC is not the first attempt at these ideas. Below is related work, and how VAC differs.
+
+**Surprise and prediction error driving learning and exploration**, which is the same family of ideas as VAC's "pain" signal:
+- Achiam & Sastry (2017), [Surprise-Based Intrinsic Motivation for Deep Reinforcement Learning](https://arxiv.org/abs/1703.01732)
+- Xu, Modirshanechi et al. (2021), [Novelty is not surprise](https://doi.org/10.1371/journal.pcbi.1009070), which finds that surprise speeds up human learning
+- Le et al. (2024), [Beyond Surprise: Improving Exploration Through Surprise Novelty](https://arxiv.org/abs/2308.04836)
+
+**Kill switches for AI agents**, now an industry standard:
+- ServiceNow, [AI agent containment using kill switch protocol](https://www.servicenow.com/docs/r/SRy58xeijUUqttfwLgfrHQ/AXcrLMFYwlqODDrvnGbT6A)
+
+**On-chain constitutions for AI agents:**
+- [AgentCity: Constitutional Governance for Autonomous Agent Economies via Separation of Power](https://arxiv.org/abs/2604.07007) (2026). Smart contracts are the law, and every agent is bound to a responsible human principal.
+- [The Governance Deficit in Autonomous Agents](https://hackernoon.com/the-governance-deficit-in-autonomous-agents) (Nostra), a constitutional DeFi agent
+
+**How VAC differs:**
+- The constitutional articles are themselves an NFT art series, and the parameters are written into the metadata.
+- No custom smart contract is needed: transferring one standard ERC-721 NFT is the switch.
+- If the chain can't be read, the system halts (fail-safe).
+- A public, live status page lets anyone verify the current state.
+
 ## Module map (white paper → code)
 
 | # | Module | Planned implementation |
