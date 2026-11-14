@@ -253,6 +253,29 @@
           }
         ]
       }
+    },
+    "11": {
+      "tokenURI": "ipfs://bafkreibdhkvvpe7fq4awtww2ba637rnqtuwoivyykjvrb46o2siks67xbi",
+      "metadata": {
+        "name": "VAC Metric #009: Unified Manifesto",
+        "description": "統一場總綱宣言。整合廣義相對論、量子力學與 VAC 系統的全域地圖。本體論完備性聲明。",
+        "image": "ipfs://bafybeifvio74azf4mt37f27aidrsds27v5vgyrihemuyexpn5cjv2h6pze",
+        "external_url": "ipfs://bafkreictk3lpkwqjwy4uoz3uft4iwcmxlpld6fdgbxnhmmdmi5jxdy4dm4",
+        "attributes": [
+          {
+            "trait_type": "Layer",
+            "value": "Metric (Standard)"
+          },
+          {
+            "trait_type": "Type",
+            "value": "Manifesto"
+          },
+          {
+            "trait_type": "Scope",
+            "value": "Global"
+          }
+        ]
+      }
     }
   }
 }
