@@ -1,0 +1,5 @@
+交易: 已上鏈 block 26414408
+結果: 成功
+#12: ipfs://bafkreicjrh4xryym7bktwqdi2g2nc6tv5ra6o5kohnxc54krza756aahjy
+#13: 尚未鑄造
+#14: 尚未鑄造
