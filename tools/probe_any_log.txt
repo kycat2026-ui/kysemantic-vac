@@ -1,0 +1,34 @@
+chain: base contract: 0x9ec492fc7c0664a84f01ab5bb98521bb6ba947db token: 1
+name: KY Semantic Field
+symbol: KYSF
+owner(): 0xeace739e1436738caeef04a509a169f3734692b9
+ownerOf: 0xeace739e1436738caeef04a509a169f3734692b9
+is721: 1
+is1155: 0
+tokenURI/uri: https://arweave.net/5LZlERWOqhK85G3cqwNAwL62a9zMvG6zQG4LH-y91Ao
+METADATA: {
+ "description": "語義統一場・主控人格封存卡",
+ "name": "KY Semantic Field #001",
+ "Metadata_Proof": "ipfs://bafkreigg5pfbqa36yj3b53opywa6slpygiogzpvsqafchrn53vygltyvpy",
+ "attributes": [
+  {
+   "trait_type": "Module",
+   "value": "Unified Field",
+   "display_type": "text"
+  },
+  {
+   "trait_type": "Seal ",
+   "value": "V1.0-SEAL"
+  }
+ ],
+ "image_details": {
+  "bytes": 1568,
+  "format": "SVG",
+  "sha256": "806972ae7a61b275a5c8cc787fc9d4bd2918d2009532fcf3982378ff22261107"
+ },
+ "image": "https://arweave.net/_rfNIYjW01K3MiVPXWn3ZJaYR10PTR_01o_j2w1SSNg",
+ "image_url": "https://arweave.net/_rfNIYjW01K3MiVPXWn3ZJaYR10PTR_01o_j2w1SSNg"
+}
+bytecode bytes: 298
+  0x43000811 ?
+  0x5c60da1b implementation()
