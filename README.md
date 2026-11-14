@@ -92,6 +92,14 @@ We first wrote [PREREGISTRATION.md](PREREGISTRATION.md) (hypotheses, metrics, su
 - Conclusion: **in this small environment, the "pain → learning/exploration" loop as currently implemented does not yet show an independent benefit.** The quick-demo results above used an untuned Baseline and overstated the effect.
 - What still stands: the on-chain governance (veto, parameters read from chain, fail-safe) works as designed.
 
+## Rigorous benchmark v1 (pre-registered)
+
+Plan: [PREREGISTRATION.md](PREREGISTRATION.md), committed before any result. Full results: [bench_results.md](bench_results.md).
+
+- ✅ All three pre-registered criteria pass: VAC full beats a **tuned** Baseline in trap-shift (+1.52), goal-shift (+0.69) and the stationary environment (+0.58), and every 95% CI excludes 0.
+- 🔍 **But the ablations show that almost all of the effect comes from 001 Irreversibility (a cost on every step).** A Baseline with only 001 added performs about the same as VAC full (exploratory analysis).
+- In this small grid world, the extra contribution of the pain loop (006 → 003 / 007) and of the A01 circuit breaker is not measurable. The next step is to test them in larger, noisier environments.
+
 ## Constitutional amendments (on-chain rules)
 
 | Token | Amendment | What the program does |
