@@ -1,0 +1,37 @@
+name: Read NFT genome
+
+on:
+  workflow_dispatch:
+    inputs:
+      chain:
+        description: "Chain (leave blank to auto-detect)"
+        required: false
+        default: ""
+      ids:
+        description: "Token range"
+        required: false
+        default: "0-10"
+
+permissions:
+  contents: write
+
+jobs:
+  read:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Read NFT metadata on-chain
+        run: |
+          ARGS="--ids ${{ inputs.ids }}"
+          if [ -n "${{ inputs.chain }}" ]; then ARGS="$ARGS --chain ${{ inputs.chain }}"; fi
+          python3 read_vac_nft.py $ARGS | tee read_log.txt
+      - name: Commit results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f vac_genome.json read_log.txt
+          git commit -m "Update vac_genome.json from chain" || echo "No changes"
+          git push
