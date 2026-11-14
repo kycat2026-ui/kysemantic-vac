@@ -2,16 +2,16 @@
 
 鏈: ethereum | 標準: ERC-721 | 名稱: VAC Protocol (VAC)
 
-#0: 讀取失敗（RuntimeError）
-#1: 讀取失敗（UnboundLocalError）
-#2: 讀取失敗（UnboundLocalError）
-#3: 讀取失敗（UnboundLocalError）
-#4: 讀取失敗（UnboundLocalError）
-#5: 讀取失敗（UnboundLocalError）
-#6: 讀取失敗（UnboundLocalError）
-#7: 讀取失敗（UnboundLocalError）
-#8: 讀取失敗（UnboundLocalError）
-#9: 讀取失敗（UnboundLocalError）
-#10: 讀取失敗（UnboundLocalError）
+#0: 讀取失敗（RuntimeError: {'code': 3, 'message': 'execution reverted', 'data': '0x7e2732890000000000000000000000000000000000000000000000000000000000000000'}）
+#1: 讀取失敗（HTTPError: HTTP Error 429: Too Many Requests）
+#2: 讀取失敗（HTTPError: HTTP Error 429: Too Many Requests）
+#3: 讀取失敗（HTTPError: HTTP Error 429: Too Many Requests）
+#4: 讀取失敗（HTTPError: HTTP Error 429: Too Many Requests）
+#5: 讀取失敗（HTTPError: HTTP Error 429: Too Many Requests）
+#6: 讀取失敗（HTTPError: HTTP Error 429: Too Many Requests）
+#7: 讀取失敗（HTTPError: HTTP Error 429: Too Many Requests）
+#8: 讀取失敗（HTTPError: HTTP Error 429: Too Many Requests）
+#9: 讀取失敗（HTTPError: HTTP Error 429: Too Many Requests）
+#10: 讀取失敗（HTTPError: HTTP Error 429: Too Many Requests）
 
 已存成 vac_genome.json，之後原型程式會從這份檔案載入「意志基因組」。
