@@ -1,11 +1,15 @@
-name: Wallet attention check (private artifact)
+name: Wallet attention check (encrypted)
 
 on:
   push:
     branches: [main]
     paths:
       - tools/attention.py
+      - .github/workflows/attention.yml
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   check:
@@ -16,8 +20,15 @@ jobs:
         with:
           python-version: "3.12"
       - run: python3 tools/attention.py > attention_log.txt 2>&1 || true
-      - uses: actions/upload-artifact@v4
-        with:
-          name: attention
-          path: attention_log.txt
-          retention-days: 1
+      - name: Encrypt (only the holder of the private key can read it)
+        run: |
+          openssl rand -hex 32 > k.txt
+          openssl enc -aes-256-cbc -pbkdf2 -salt -in attention_log.txt -out tools/attention.enc -pass file:k.txt
+          openssl pkeyutl -encrypt -pubin -inkey tools/attention_pub.pem -pkeyopt rsa_padding_mode:oaep -in k.txt -out tools/attention.key.enc
+          rm -f k.txt attention_log.txt
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f tools/attention.enc tools/attention.key.enc
+          git commit -m "Encrypted attention check" || echo "No changes"
+          git pull --rebase && git push
