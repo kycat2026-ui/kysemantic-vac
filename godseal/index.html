@@ -43,6 +43,8 @@
   td{padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
   td:first-child{color:var(--muted);white-space:nowrap;width:1%}
   code{font-family:ui-monospace,Menlo,monospace;font-size:12px;word-break:break-all;color:var(--gold-hi)}
+  .card .hash{margin-top:10px;font-size:10px;color:var(--dim);line-height:1.4}
+  .card .hash code{font-size:10px;color:var(--muted)}
   footer{padding:40px 0 64px;border-top:1px solid var(--line);color:var(--dim);font-size:13px;text-align:center}
 </style>
 </head>
@@ -114,6 +116,7 @@ const SEALS = [
  ["Ethi","羽誓","空氣","輕盈、誓約","誓言語：Ethi 成立不破誓印"],
  ["Toma","炎刻","熔岩","崩壞、重鑄","破壞語：Toma 之印熔毀封印"]
 ];
+const HASH = ["902c7c52cfd29d174fb92fac4aa04fa0b91ab2dd757d1942be22977cc220eec6", "6bb83c2168cbb99a5b938924beede4f8678d3a69891cb494f2f4df89c2e84c26", "5f18de7751191cc515eee4d777fc5ef7db2f15c1685b0eb1a455a4dafb68a6e6", "c7ee6069aa10d75ce318adcff5264138814b16edfd3ccd9451d1a7c996c133fd", "a6314931fc55cc1244ffb09ffc964b4a55886dd2e33c8f150f0dd0cdbae82454", "01cda9ebb9afe0b6accf1315071d616f2cc8d3b7f1dbbcfaf5b0440d3d8c29a2", "fdbf35a2d547a79a3648615af8b8ef154633a4a69a3ccd435e67f84460d665ba", "436fa3cc5a08b8d15aa2175719956495d4c34736e65d83ddcb2738d7a7b540e0", "ed589038d301088ff7f99084d5d42aba6701d776fc242d39156421d0a813ae30", "d85b56c4a61de893a092374ee1f668cf001b379104d96c1ed9c4649e4784fe28", "e9d63967c21122102099d3c6d20dfd215465a843b353dbc25308ba514527bed4", "57da549247470f76ae5d25c668f5b373fed2d29774f09bae05ddab5c54bec3dc", "ba318f04ad11ac22e4797c69ded662c473a26a0a51d0c90fcb9c1bd2951f11f0", "9dee60c9183e5a4056a6ad99c390460c9b662edf80aab994c3390a7598e157f5", "162c8f0ec80cc9d28ed2f437ab3c9cbc286134e5703febff75323d1c60162dc9", "0b858eaf00de4e48737cbb39dad815d82e0f07592ad9189e7173517f6c62b65e"];
 const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 document.getElementById("grid").innerHTML = SEALS.map(([en, zh, core, energy, syntax], i) => {
   const n = String(i + 1).padStart(2, "0");
@@ -124,6 +127,7 @@ document.getElementById("grid").innerHTML = SEALS.map(([en, zh, core, energy, sy
       <h3>${esc(en)} · ${esc(zh)}</h3>
       <dl><dt>語意核心</dt><dd>${esc(core)}</dd><dt>能量屬性</dt><dd>${esc(energy)}</dd></dl>
       <div class="syntax">${esc(syntax)}</div>
+      <div class="hash">SHA-256<br><code>${HASH[i]}</code></div>
     </div>
   </article>`;
 }).join("");
