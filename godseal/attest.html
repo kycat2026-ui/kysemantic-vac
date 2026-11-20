@@ -20,11 +20,11 @@
 <body>
 <div class="wrap">
   <h1>神謎古印 · 鏈上存證</h1>
-  <p>在 Base 鏈上發一筆 0 ETH 給自己的交易，把存證檔的 SHA-256 寫進交易資料，作為時間證明。</p>
+  <p>在 Base 鏈上發一筆 0 ETH 到公開備註地址（0x…dEaD）的交易，把存證檔的 SHA-256 寫進交易資料，作為時間證明。</p>
   <div class="box">
     寫入內容：<br><code id="memo"></code><br><br>
     對應檔案：KY_NFT_Attestation_20250915.yaml<br>
-    網路：Base（chainId 8453）· 金額：0 ETH
+    網路：Base（chainId 8453）· 金額：0 ETH<br>收款：0x000000000000000000000000000000000000dEaD（公開備註用，無人持有）
   </div>
   <button id="go">連接錢包並送出存證</button>
   <div id="log"></div>
@@ -33,6 +33,7 @@
 const MEMO = "ky_attest:1368e04da3039fb45362aa8116608278b5b81e5f6aed09c3dcf90357e83b38a7";
 const DATA = "0x" + Array.from(new TextEncoder().encode(MEMO)).map(b => b.toString(16).padStart(2, "0")).join("");
 const BASE = "0x2105";
+const TO = "0x000000000000000000000000000000000000dEaD";
 document.getElementById("memo").textContent = MEMO;
 const log = m => document.getElementById("log").textContent += m + "\n";
 
@@ -50,7 +51,7 @@ document.getElementById("go").onclick = async () => {
       await eth.request({ method: "wallet_switchEthereumChain", params: [{ chainId: BASE }] });
     }
     log("請在錢包確認交易…");
-    const tx = await eth.request({ method: "eth_sendTransaction", params: [{ from, to: from, value: "0x0", data: DATA }] });
+    const tx = await eth.request({ method: "eth_sendTransaction", params: [{ from, to: TO, value: "0x0", data: DATA }] });
     log("✅ 已送出！交易雜湊：\n" + tx);
     const a = document.createElement("a");
     a.href = "https://basescan.org/tx/" + tx; a.textContent = "在 Basescan 查看"; a.target = "_blank";
