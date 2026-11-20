@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>神謎古印 · 鏈上存證</title>
+<style>
+  body{margin:0;background:#0e0b09;color:#eadfca;font:16px/1.7 "Noto Serif TC",serif}
+  .wrap{max-width:560px;margin:0 auto;padding:40px 20px}
+  h1{color:#e8d2a0;font-size:26px;margin:0 0 8px}
+  p{color:#a08d70}
+  code{font-family:ui-monospace,Menlo,monospace;font-size:12px;word-break:break-all;color:#e8d2a0}
+  .box{border:1px solid #3a2e20;padding:14px;margin:16px 0;background:#16110d}
+  button{width:100%;padding:16px;font-size:18px;background:#c4a062;color:#0e0b09;border:0;font-weight:700;cursor:pointer}
+  button:disabled{opacity:.5}
+  #log{margin-top:18px;white-space:pre-wrap;word-break:break-all;font-size:14px}
+  a{color:#e8d2a0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>神謎古印 · 鏈上存證</h1>
+  <p>在 Base 鏈上發一筆 0 ETH 給自己的交易，把存證檔的 SHA-256 寫進交易資料，作為時間證明。</p>
+  <div class="box">
+    寫入內容：<br><code id="memo"></code><br><br>
+    對應檔案：KY_NFT_Attestation_20250915.yaml<br>
+    網路：Base（chainId 8453）· 金額：0 ETH
+  </div>
+  <button id="go">連接錢包並送出存證</button>
+  <div id="log"></div>
+</div>
+<script>
+const MEMO = "ky_attest:1368e04da3039fb45362aa8116608278b5b81e5f6aed09c3dcf90357e83b38a7";
+const DATA = "0x" + Array.from(new TextEncoder().encode(MEMO)).map(b => b.toString(16).padStart(2, "0")).join("");
+const BASE = "0x2105";
+document.getElementById("memo").textContent = MEMO;
+const log = m => document.getElementById("log").textContent += m + "\n";
+
+document.getElementById("go").onclick = async () => {
+  const btn = document.getElementById("go");
+  const eth = window.ethereum;
+  if (!eth) { log("找不到錢包。請在錢包 App 內建的瀏覽器打開這個網頁。"); return; }
+  btn.disabled = true;
+  try {
+    const [from] = await eth.request({ method: "eth_requestAccounts" });
+    log("已連接：" + from);
+    const chain = await eth.request({ method: "eth_chainId" });
+    if (chain !== BASE) {
+      log("切換到 Base…");
+      await eth.request({ method: "wallet_switchEthereumChain", params: [{ chainId: BASE }] });
+    }
+    log("請在錢包確認交易…");
+    const tx = await eth.request({ method: "eth_sendTransaction", params: [{ from, to: from, value: "0x0", data: DATA }] });
+    log("✅ 已送出！交易雜湊：\n" + tx);
+    const a = document.createElement("a");
+    a.href = "https://basescan.org/tx/" + tx; a.textContent = "在 Basescan 查看"; a.target = "_blank";
+    document.getElementById("log").appendChild(a);
+  } catch (e) {
+    log("❌ " + (e && e.message ? e.message : e));
+    btn.disabled = false;
+  }
+};
+</script>
+</body>
+</html>
