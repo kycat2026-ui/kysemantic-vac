@@ -58,7 +58,7 @@
     <a class="btn" href="#seals">十六符印</a>
     <a class="btn" href="proposal.pdf">提案書 PDF</a>
     <a class="btn" href="#provenance">原創驗證</a>
-    <a class="btn" href="https://opensea.io/Kysemantic">OpenSea</a>
+    <a class="btn" href="https://opensea.io/assets/base/0x20e787b876cb39357dd5f7dfba624bacf596fc59/1">OpenSea</a>
   </nav>
 </header>
 
@@ -85,6 +85,10 @@
     <tr><td>存證紀錄</td><td>KY NFT Attestation P1 · 2025-09-15</td></tr>
     <tr><td>IPFS 資料夾</td><td><a href="https://ipfs.io/ipfs/bafybeieqhfbhufbb5t4ncb2b23t4sdkdd4xzkaaxcyq7sbyyqsfvwjoraa/"><code>bafybeieqhfbhufbb5t4ncb2b23t4sdkdd4xzkaaxcyq7sbyyqsfvwjoraa</code></a></td></tr>
     <tr><td>原始圖檔</td><td>每枚卡片的圖片連到 IPFS 上的 1024×1024 原檔；雜湊清單見 IPFS 資料夾內 <code>godseal_SHA256.txt</code></td></tr>
+    <tr><td>鏈</td><td>Base（ERC-721，Manifold Creator 合約）</td></tr>
+    <tr><td>合約地址</td><td><a href="https://basescan.org/address/0x20e787b876cb39357dd5f7dfba624bacf596fc59"><code>0x20e787b876cb39357dd5f7dfba624bacf596fc59</code></a></td></tr>
+    <tr><td>部署交易</td><td><a href="https://basescan.org/tx/0x338d7758ca331410cd7ee2332b347387396a0ee8817aaa993bf58d486312823c"><code>0x338d7758ca331410cd7ee2332b347387396a0ee8817aaa993bf58d486312823c</code></a></td></tr>
+    <tr><td>發行日期</td><td>2026-11-20 · 共 16 枚（Token #1–#16）</td></tr>
     <tr><td>授權</td><td>© KY 保留所有權利</td></tr>
   </table>
 </section>
@@ -95,6 +99,7 @@
 
 </div>
 <script>
+const CONTRACT = "0x20e787b876cb39357dd5f7dfba624bacf596fc59";
 const CID = "bafybeieqhfbhufbb5t4ncb2b23t4sdkdd4xzkaaxcyq7sbyyqsfvwjoraa";
 const SEALS = [
  ["Zeyra","星刻","星","預言、定位","主語：Zeyra 指引命運軌跡"],
@@ -124,6 +129,7 @@ document.getElementById("grid").innerHTML = SEALS.map(([en, zh, core, energy, sy
       <h3>${esc(en)} · ${esc(zh)}</h3>
       <dl><dt>語意核心</dt><dd>${esc(core)}</dd><dt>能量屬性</dt><dd>${esc(energy)}</dd></dl>
       <div class="syntax">${esc(syntax)}</div>
+      <div class="no" style="margin-top:10px"><a href="https://opensea.io/assets/base/0x20e787b876cb39357dd5f7dfba624bacf596fc59/${i + 1}">OpenSea</a> · <a href="https://basescan.org/nft/0x20e787b876cb39357dd5f7dfba624bacf596fc59/${i + 1}">Basescan</a></div>
     </div>
   </article>`;
 }).join("");
