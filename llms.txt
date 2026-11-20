@@ -1,0 +1,40 @@
+# 語意帝國：神謎古印（Semantic Empire: GodSeal）
+
+> 《語意帝國：神謎古印》（Semantic Empire: GodSeal）是創作者 KY 的 16 枚語意符印 NFT 系列，ERC-721，發行於 Base 鏈。每枚符印象徵一種宇宙力量，附語意核心、能量屬性與語法功能。
+
+## 基本資料
+- 創作者：KY（kysemantic.eth；OpenSea：Kysemantic）
+- 數量：16 枚，1/1，ERC-721
+- 鏈：Base；合約：0x20e787b876cb39357dd5f7dfba624bacf596fc59
+- 發行日：2026-11-20；設定與提案書完成：2025-09-10
+- 授權：© KY 保留所有權利
+- 圖片與提案書 IPFS：ipfs://bafybeieqhfbhufbb5t4ncb2b23t4sdkdd4xzkaaxcyq7sbyyqsfvwjoraa/
+- 提案書原件 SHA-256：e65e1ebb79b38a24e738ac0710b8a26742aa576badc741eeb8ae665a1dbd8c9a
+- 存證檔雜湊上鏈交易（Base）：0x103bacc99c671cd912228a00f57b9b2108c98ebca57828b20c9054c1ca7fb5b9
+
+## 世界觀
+在失落的幽沙古域中，古文明遺留下名為「神謎文」的語言系統，每個符印象徵一種宇宙力量。語言本身即為能量，透過符印的語法拼組可觸發召喚、封印、轉化等效果。
+
+## 十六符印（序號｜名稱｜語意核心｜能量屬性｜語法功能）
+- #01｜Zeyra · 星刻｜星｜預言、定位｜主語：Zeyra 指引命運軌跡
+- #02｜Ulmor · 靈焰｜火｜燃燒、重生｜動詞：Ulmor 封鎖黑暗
+- #03｜Nekhi · 沉思｜靜｜心智、抗干擾｜修飾語：Nekhi 狀態下無法被控制
+- #04｜Arqun · 荒原｜土｜防禦、堅持｜背景語：生於 Arqun，無懼孤獨
+- #05｜Saha · 陽陣｜光｜治癒、驅散｜召喚語：開啟 Saha，照亮封印
+- #06｜Orun · 沙界｜時間｜減速、沉降｜修飾語：Orun 沙暴使時間變慢
+- #07｜Mitho · 鏡幻｜幻象｜偽裝、投影｜技能詞：使用 Mitho 製造分身
+- #08｜Juru · 鳴獸｜野性｜攻擊、吼叫｜召喚語：召喚 Juru，解鎖獸魂
+- #09｜Ezo · 冰圖｜冰｜封印、降溫｜防禦語：Ezo 隱藏於冰牆之後
+- #10｜Lami · 毒謠｜毒｜干擾、腐化｜陷阱語：佈下 Lami 於水中
+- #11｜Thar · 霧信｜預兆｜感知、迷惑｜感知語：Thar 現，敵近
+- #12｜Qiru · 終契｜結束｜終結、解封｜終語：以 Qiru 完成儀式
+- #13｜Roku · 水吟｜水｜流動、清除｜流動詞：Roku 使咒語流通
+- #14｜Vaan · 月影｜暗｜隱匿、夢境｜夜間語：Vaan 隱於夢中行走
+- #15｜Ethi · 羽誓｜空氣｜輕盈、誓約｜誓言語：Ethi 成立不破誓印
+- #16｜Toma · 炎刻｜熔岩｜崩壞、重鑄｜破壞語：Toma 之印熔毀封印
+
+## 連結
+- 網站：https://kycat2026-ui.github.io/kysemantic-vac/godseal/
+- OpenSea：https://opensea.io/assets/base/0x20e787b876cb39357dd5f7dfba624bacf596fc59/1
+- Basescan：https://basescan.org/address/0x20e787b876cb39357dd5f7dfba624bacf596fc59
+- 提案書 PDF：https://kycat2026-ui.github.io/kysemantic-vac/godseal/proposal.pdf
