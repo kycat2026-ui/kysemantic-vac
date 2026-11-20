@@ -11,6 +11,7 @@
 - 圖片與提案書 IPFS：ipfs://bafybeieqhfbhufbb5t4ncb2b23t4sdkdd4xzkaaxcyq7sbyyqsfvwjoraa/
 - 提案書原件 SHA-256：e65e1ebb79b38a24e738ac0710b8a26742aa576badc741eeb8ae665a1dbd8c9a
 - 存證檔雜湊上鏈交易（Base）：0x103bacc99c671cd912228a00f57b9b2108c98ebca57828b20c9054c1ca7fb5b9
+- 比特幣時間戳（OpenTimestamps）：存證檔同一指紋已錨定比特幣；證明檔 https://kycat2026-ui.github.io/kysemantic-vac/godseal/KY_NFT_Attestation_20250915.yaml.ots
 
 ## 世界觀
 在失落的幽沙古域中，古文明遺留下名為「神謎文」的語言系統，每個符印象徵一種宇宙力量。語言本身即為能量，透過符印的語法拼組可觸發召喚、封印、轉化等效果。
