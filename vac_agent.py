@@ -68,7 +68,7 @@ def creator_veto(amend, mods):
     """A02 創作者否決權：A02 與 Axiom #003 必須在同一個錢包，否則停止。
     鏈上查不到（網路錯誤）時也視為停止：寧可停下，不可失控。"""
     if "A02" not in amend:
-        return False, "未持有 A02，否決權條款未生效"
+        return True, "未讀取到 A02，無法確認創作者否決權 → 安全起見停止"
     if "003" not in mods:
         return True, "找不到 Axiom #003，無法確認憲法持有者 → 停止"
     here = os.path.dirname(os.path.abspath(__file__))
