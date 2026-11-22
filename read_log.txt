@@ -1,5 +1,5 @@
 
-鏈: ethereum | 標準: ERC-721 | 名稱: VAC Protocol (VAC)
+鏈: ethereum (chainId=1) | 標準: ERC-721 | 名稱: VAC Protocol (VAC)
 
 #1 tokenURI: ipfs://bafkreickmbnmqsymwxnxrh6jdxcwsxfjfqqknhqifwrh45kb4jacieaxqa
 #1: MuBend Axiom v1.0 (Genesis Block)
