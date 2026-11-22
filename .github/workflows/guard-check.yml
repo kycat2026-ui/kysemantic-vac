@@ -21,6 +21,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: |
+          set -o pipefail
           python3 vac_guard.py | tee tools/guard_log.txt
           python3 example_attach.py | tee -a tools/guard_log.txt
       - run: |
