@@ -31,11 +31,30 @@ def load_genome(path="vac_genome.json", offline=False):
         r = subprocess.run([sys.executable, os.path.join(here, "read_vac_nft.py"),
                             "--chain", "ethereum", "--ids", "1-30", "--out", path])
         if r.returncode != 0:
-            print("  鏈上讀取失敗，改用既有的", path)
+            # Never fall back to an old cache after a failed live-chain read.
+            raise SystemExit("鏈上讀取失敗或 NFT 資料不完整；拒絕使用舊快取。")
     if not os.path.exists(path):
         sys.exit(f"找不到 {path}，請先執行 read_vac_nft.py")
     with open(path, encoding="utf-8") as f:
-        return json.load(f)
+        genome = json.load(f)
+
+    if not isinstance(genome, dict):
+        raise SystemExit("VAC genome 格式錯誤，停止。")
+    if str(genome.get("contract", "")).lower() != "0x4e22b334e53c1dc7e266b5996d32c05a6ac8f4fb":
+        raise SystemExit("VAC genome 合約地址不符，停止。")
+    if genome.get("chain") != "ethereum" or genome.get("standard") != "ERC-721":
+        raise SystemExit("VAC genome 鏈或 NFT 標準不符，停止。")
+    if genome.get("name") != "VAC Protocol":
+        raise SystemExit("VAC genome 合約名稱不符，停止。")
+
+    # The current constitution requires Axiom #003 (token 4) and A02 (token 13).
+    mods = parse_modules(genome)
+    amendments = parse_amendments(genome)
+    if mods.get("003", {}).get("token_id") != 4:
+        raise SystemExit("缺少或不正確的 Axiom #003（token #4），停止。")
+    if amendments.get("A02", {}).get("token_id") != 13:
+        raise SystemExit("缺少或不正確的 A02（token #13），停止。")
+    return genome
 
 
 def parse_modules(genome):
