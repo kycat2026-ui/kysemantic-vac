@@ -86,7 +86,7 @@ To halt the system, transfer token #13 to another wallet. To resume, transfer it
 
 ## Security boundary
 
-This is an experimental NFT-governed agent prototype, not a general user-data sovereignty or LLM sandbox system. See [SECURITY_MODEL.md](SECURITY_MODEL.md) for the trust assumptions, fail-closed behavior, and production gaps. Regression tests are not a substitute for an independent security audit.
+This is an experimental NFT-governed agent prototype, not a general user-data sovereignty or LLM sandbox system. See [SECURITY_SCOPE.md](SECURITY_SCOPE.md) for the trust assumptions, fail-closed behavior, what the prototype does not enforce, and the production gates. A new contract deployment is not required for the current off-chain hardening. Regression tests are not a substitute for an independent security audit.
 
 ## Related work
 
