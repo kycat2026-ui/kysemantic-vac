@@ -83,7 +83,7 @@ class FailClosedTests(unittest.TestCase):
             path = Path(tmp) / "vac_genome.json"
             path.write_text("keep-existing-cache", encoding="utf-8")
             with patch("sys.argv", ["read_vac_nft.py", "--chain", "ethereum", "--ids", "4-4", "--out", str(path)]), \\
-                 patch.object(read_vac_nft, "rpc", side_effect=["0x1", "0x6000"]), \\
+                 patch.object(read_vac_nft, "rpc", side_effect=["0x1", "0x6000", "0x00", "0x00"]), \\
                  patch.object(read_vac_nft, "standard", return_value="ERC-721"), \\
                  patch.object(read_vac_nft, "decode_string", side_effect=["VAC Protocol", "VAC"]), \\
                  patch.object(read_vac_nft, "token_uri", return_value="ipfs://unavailable"), \\
