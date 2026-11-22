@@ -93,7 +93,8 @@ def build_status(guard=None):
             "chain": "ethereum",
             "contract": OFFICIAL_CONTRACT,
             "tokens": TOKENS,
-            "verified": source_ok,
+            "checks_passed": source_ok,
+            "verified": source_ok,  # legacy alias; not an independent bytecode/source audit
             "verification_scope": "chainId, bytecode presence, ERC-721 name, and Ownable owner; not a bytecode-hash audit",
         },
         "status": status,
