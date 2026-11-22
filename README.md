@@ -53,7 +53,7 @@ python3 vac_agent.py --offline  # use an existing vac_genome.json
 
 The agent first reads the VAC Protocol NFTs on Ethereum and validates the chain, contract identity, Axiom #003, and A02. A live read failure or incomplete genome stops execution; it never silently reuses a stale cache. Each module (001–009) is enabled only if its NFT is found. It then compares a standard agent with the VAC agent in a grid world, where the traps move halfway through. Results go to `results.md` and `results.png`.
 
-Every push runs this automatically on GitHub Actions and commits the latest results back to the repo.
+Changes to the prototype reader or agent trigger GitHub Actions to run the experiment and commit its results.
 
 ![results](results.png)
 
@@ -83,6 +83,10 @@ Contract: `0x4e22b334e53c1dc7e266b5996d32c05a6ac8f4fb`
 | #14 | A03 Zeta Calibration | Reads `Zeta` and uses it as ζ_vac |
 
 To halt the system, transfer token #13 to another wallet. To resume, transfer it back.
+
+## Security boundary
+
+This is an experimental NFT-governed agent prototype, not a general user-data sovereignty or LLM sandbox system. See [SECURITY_MODEL.md](SECURITY_MODEL.md) for the trust assumptions, fail-closed behavior, and production gaps. Regression tests are not a substitute for an independent security audit.
 
 ## Related work
 
