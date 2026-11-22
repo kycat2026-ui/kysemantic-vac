@@ -141,23 +141,39 @@ def main():
         if not chain:
             print("五條鏈上都找不到這個合約，請用 --chain 指定，或確認地址。"); return
 
-    std = standard(url)
-    name = symbol = "?"
-    try: name = decode_string(call(url, SEL_NAME))
-    except Exception: pass
-    try: symbol = decode_string(call(url, SEL_SYMBOL))
-    except Exception: pass
-    print(f"\n鏈: {chain} | 標準: {std} | 名稱: {name} ({symbol})\n")
+    # This repository's production configuration is Ethereum Mainnet + the
+    # exact VAC Protocol ERC-721 contract. Never silently accept another chain.
+    try:
+        chain_id = int(rpc(url, "eth_chainId", []), 16)
+        if chain_id != 1 or chain != "ethereum":
+            raise RuntimeError(f"wrong chain: {chain} (chainId={chain_id})")
+        code = rpc(url, "eth_getCode", [CONTRACT, "latest"])
+        if code in ("0x", "0x0"):
+            raise RuntimeError("no contract bytecode at configured address")
+        std = standard(url)
+        if std != "ERC-721":
+            raise RuntimeError(f"unexpected token standard: {std}")
+        name = decode_string(call(url, SEL_NAME))
+        symbol = decode_string(call(url, SEL_SYMBOL))
+        if name != "VAC Protocol" or symbol != "VAC":
+            raise RuntimeError(f"contract identity mismatch: {name!r} ({symbol!r})")
+    except Exception as e:
+        print(f"\n⛔ 無法驗證官方合約，停止讀取：{type(e).__name__}: {e}")
+        raise SystemExit(2)
+    print(f"\n鏈: {chain} (chainId={chain_id}) | 標準: {std} | 名稱: {name} ({symbol})\n")
 
     genome = {"contract": CONTRACT, "chain": chain, "standard": std,
               "name": name, "tokens": {}}
     missing = 0
+    metadata_errors = []
     for tid in ids:
         try:
             try:
                 uri = token_uri(url, std, tid)
             except RuntimeError as e:
-                if "7e273289" in str(e) or "execution reverted" in str(e):
+                # OpenZeppelin ERC721NonexistentToken custom error only.
+                # Generic "execution reverted" may be an RPC/contract failure.
+                if "7e273289" in str(e):
                     missing += 1
                     if missing >= 3:
                         print(f"#{tid}: 已無更多 token，停止")
@@ -175,7 +191,16 @@ def main():
             for at in meta.get("attributes", []):
                 print(f"     - {at.get('trait_type')}: {at.get('value')}")
         except Exception as e:
-            print(f"#{tid}: 讀取失敗（{type(e).__name__}: {e}）")
+            message = f"#{tid}: 讀取失敗（{type(e).__name__}: {e}）"
+            print(message)
+            metadata_errors.append(message)
+
+    if metadata_errors:
+        print(f"\n⛔ NFT 基因組不完整（{len(metadata_errors)} 項錯誤），不寫入可執行快取。")
+        raise SystemExit(2)
+    if not genome["tokens"]:
+        print("\n⛔ 沒有讀到任何 NFT，停止。")
+        raise SystemExit(2)
 
     with open(a.out, "w", encoding="utf-8") as f:
         json.dump(genome, f, ensure_ascii=False, indent=2)

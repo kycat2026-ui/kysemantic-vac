@@ -36,7 +36,7 @@ GATEWAYS = ["https://amaranth-added-bug-25.mypinata.cloud/ipfs/", "https://ipfs.
 
 
 class VACGuard:
-    def __init__(self, cache_seconds=60, rpcs=None):
+    def __init__(self, cache_seconds=0, rpcs=None):
         self.cache_seconds = cache_seconds
         self.rpcs = rpcs or RPCS
         self._allowed_at = 0.0
@@ -92,6 +92,12 @@ class VACGuard:
     def _verify_source(self):
         """Confirm we are talking to the official contract, not a look-alike"""
         try:
+            chain_id = int(self._rpc("eth_chainId", []), 16)
+            if chain_id != 1:
+                raise RuntimeError(f"wrong chainId={chain_id}; Ethereum Mainnet required")
+            code = self._rpc("eth_getCode", [OFFICIAL_CONTRACT, "latest"])
+            if code in ("0x", "0x0"):
+                raise RuntimeError("no contract bytecode at official address")
             name = self._string(self._call("0x06fdde03"))
             owner = "0x" + self._call("0x8da5cb5b")[-40:]
         except Exception as e:
@@ -122,7 +128,9 @@ class VACGuard:
         return self._allowed
 
     def params(self):
-        """Rules read from the on-chain NFTs (A01, A03)"""
+        """Rules read from the on-chain NFTs (A01, A03); never bypass the veto."""
+        if not self.allowed():
+            raise PermissionError(self.reason)
         if self._params is None:
             def attr(m, k):
                 return next(a["value"] for a in m["attributes"] if a["trait_type"] == k)

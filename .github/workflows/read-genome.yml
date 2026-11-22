@@ -31,6 +31,7 @@ jobs:
           python-version: "3.12"
       - name: Read NFT metadata on-chain
         run: |
+          set -o pipefail
           IDS="${{ inputs.ids }}"; ARGS="--ids ${IDS:-1-50}"
           python3 read_vac_nft.py --chain ethereum $ARGS | tee read_log.txt
       - name: Run VAC prototype
