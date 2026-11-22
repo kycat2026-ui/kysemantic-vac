@@ -24,7 +24,7 @@ def main():
     rng = random.Random(0)
     paused = 0
     for step in range(100):
-        if step % 25 == 0 and not guard.allowed():   # check the veto regularly (cached for 60 s)
+        if step % 25 == 0 and not guard.allowed():   # check the veto regularly (checked against the chain on every call)
             print(f"step {step}: ⛔ {guard.reason}")
             return
         surprise = my_ai_step(rng)
