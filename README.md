@@ -51,7 +51,7 @@ python3 vac_agent.py            # 1. read the NFTs on-chain → 2. enable module
 python3 vac_agent.py --offline  # use an existing vac_genome.json
 ```
 
-The agent first reads the VAC Protocol NFTs on Ethereum, and each module (001–009) is enabled only if its NFT is found. It then compares a standard agent with the VAC agent in a grid world, where the traps move halfway through. Results go to `results.md` and `results.png`.
+The agent first reads the VAC Protocol NFTs on Ethereum and validates the chain, contract identity, Axiom #003, and A02. A live read failure or incomplete genome stops execution; it never silently reuses a stale cache. Each module (001–009) is enabled only if its NFT is found. It then compares a standard agent with the VAC agent in a grid world, where the traps move halfway through. Results go to `results.md` and `results.png`.
 
 Every push runs this automatically on GitHub Actions and commits the latest results back to the repo.
 
@@ -62,12 +62,13 @@ See [results.md](results.md) for the full results.
 ## Step 1: Read the NFT genome
 
 ```bash
-python3 read_vac_nft.py                  # auto-detect the chain, read tokens 1–9
-python3 read_vac_nft.py --chain base     # specify the chain
-python3 read_vac_nft.py --ids 0-10       # specify a token range
+python3 read_vac_nft.py --chain ethereum --ids 1-30  # verify Ethereum Mainnet and read VAC tokens
 ```
 
 - Read-only. It needs no private key and costs no gas.
+- This contract is configured for Ethereum Mainnet only (chainId 1); other chains are rejected.
+- Incomplete metadata reads or RPC failures return a nonzero exit code and do not overwrite a usable genome file.
+- A live read failure never falls back to an old cached genome. `--offline` is for explicit offline/reproducibility use only, not proof of current ownership.
 - It uses only the Python standard library, so there is nothing to install.
 - The output is `vac_genome.json`.
 
