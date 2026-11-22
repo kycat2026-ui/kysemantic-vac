@@ -57,7 +57,11 @@ create policy vac_grants_owner_insert on public.vac_grants for insert to authent
  )
 );
 drop policy if exists vac_grants_owner_update on public.vac_grants;
-create policy vac_grants_owner_update on public.vac_grants for update to authenticated using (owner_id = (select auth.uid())) with check (owner_id = (select auth.uid()));
+create policy vac_grants_owner_update on public.vac_grants for update to authenticated using (owner_id = (select auth.uid())) with check (
+ owner_id = (select auth.uid()) and exists (
+  select 1 from public.vac_resources r where r.id = resource_id and r.owner_id = (select auth.uid())
+ )
+);
 drop policy if exists vac_grants_owner_delete on public.vac_grants;
 create policy vac_grants_owner_delete on public.vac_grants for delete to authenticated using (owner_id = (select auth.uid()));
 drop policy if exists vac_access_log_owner_select on public.vac_access_log;
