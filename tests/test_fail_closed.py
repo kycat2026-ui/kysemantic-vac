@@ -6,6 +6,7 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 import vac_agent
+import read_vac_nft
 from vac_guard import VACGuard
 
 
@@ -65,6 +66,35 @@ class FailClosedTests(unittest.TestCase):
             path.write_text(json.dumps(data), encoding="utf-8")
             with self.assertRaises(SystemExit):
                 vac_agent.load_genome(str(path), offline=True)
+
+
+    def test_reader_rejects_wrong_chain_before_writing_cache(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "vac_genome.json"
+            path.write_text("keep-existing-cache", encoding="utf-8")
+            with (
+                patch("sys.argv", ["read_vac_nft.py", "--chain", "ethereum", "--ids", "4-4", "--out", str(path)]),
+                patch.object(read_vac_nft, "rpc", return_value="0x2105"),
+            ):
+                with self.assertRaises(SystemExit):
+                    read_vac_nft.main()
+            self.assertEqual(path.read_text(encoding="utf-8"), "keep-existing-cache")
+
+    def test_reader_metadata_failure_does_not_overwrite_cache(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "vac_genome.json"
+            path.write_text("keep-existing-cache", encoding="utf-8")
+            with (
+                patch("sys.argv", ["read_vac_nft.py", "--chain", "ethereum", "--ids", "4-4", "--out", str(path)]),
+                patch.object(read_vac_nft, "rpc", side_effect=["0x1", "0x6000", "0x00", "0x00"]),
+                patch.object(read_vac_nft, "standard", return_value="ERC-721"),
+                patch.object(read_vac_nft, "decode_string", side_effect=["VAC Protocol", "VAC"]),
+                patch.object(read_vac_nft, "token_uri", return_value="ipfs://unavailable"),
+                patch.object(read_vac_nft, "fetch_json", side_effect=ConnectionError("IPFS unavailable")),
+            ):
+                with self.assertRaises(SystemExit):
+                    read_vac_nft.main()
+            self.assertEqual(path.read_text(encoding="utf-8"), "keep-existing-cache")
 
     def test_params_cannot_bypass_creator_veto_even_when_cached(self):
         guard = VACGuard.__new__(VACGuard)
