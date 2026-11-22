@@ -95,6 +95,15 @@ def creator_veto(amend, mods):
     import read_vac_nft as r
     try:
         url = r.RPCS["ethereum"]
+        chain_id = int(r.rpc(url, "eth_chainId", []), 16)
+        if chain_id != 1:
+            raise RuntimeError(f"wrong chainId={chain_id}; Ethereum Mainnet required")
+        code = r.rpc(url, "eth_getCode", [r.CONTRACT, "latest"])
+        if code in ("0x", "0x0"):
+            raise RuntimeError("official contract bytecode unavailable")
+        onchain_name = r.decode_string(r.call(url, r.SEL_NAME))
+        if onchain_name != "VAC Protocol":
+            raise RuntimeError(f"contract identity mismatch: {onchain_name!r}")
         own_veto = "0x" + r.call(url, "0x6352211e" + r.u256(amend["A02"]["token_id"]))[-40:]
         own_const = "0x" + r.call(url, "0x6352211e" + r.u256(mods["003"]["token_id"]))[-40:]
     except Exception as e:
