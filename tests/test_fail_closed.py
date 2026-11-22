@@ -8,6 +8,7 @@ from unittest.mock import patch
 import vac_agent
 import read_vac_nft
 from vac_guard import VACGuard
+from tools.make_status_json import build_status, EXPECTED_NAMES, MODULE_TOKENS
 
 
 def valid_genome():
@@ -95,6 +96,65 @@ class FailClosedTests(unittest.TestCase):
                 with self.assertRaises(SystemExit):
                     read_vac_nft.main()
             self.assertEqual(path.read_text(encoding="utf-8"), "keep-existing-cache")
+
+
+    def test_public_status_is_unavailable_when_any_module_metadata_fails(self):
+        class FakeGuard:
+            source_ok = True
+            reason = "allowed: A02 held together with the constitution"
+            def _metadata(self, token_id):
+                if token_id == MODULE_TOKENS["006"]:
+                    raise ConnectionError("gateway unavailable")
+                key = next(k for k, v in MODULE_TOKENS.items() if v == token_id)
+                return {"name": EXPECTED_NAMES[key], "description": "test"}
+            def allowed(self):
+                return True
+            def params(self):
+                return {"se_threshold": 3.0, "cooldown": 20, "zeta": 0.5}
+
+        status = build_status(FakeGuard())
+        self.assertEqual(status["status"], "UNAVAILABLE")
+        self.assertIsNone(status["modules"])
+        self.assertIsNone(status["rules"])
+        self.assertIn("006", status["module_errors"])
+
+    def test_public_status_distinguishes_creator_veto_from_rpc_failure(self):
+        class FakeGuard:
+            source_ok = True
+            reason = "halted: creator veto (A02 has been transferred out)"
+            def _metadata(self, token_id):
+                key = next(k for k, v in MODULE_TOKENS.items() if v == token_id)
+                return {"name": EXPECTED_NAMES[key], "description": "test"}
+            def allowed(self):
+                return False
+            def params(self):
+                raise AssertionError("params must not be read while halted")
+
+        status = build_status(FakeGuard())
+        self.assertEqual(status["status"], "HALTED")
+        self.assertIsNone(status["modules"])
+        self.assertIsNone(status["rules"])
+
+        FakeGuard.reason = "cannot read the chain (ConnectionError) → halt (fail-closed)"
+        unavailable = build_status(FakeGuard())
+        self.assertEqual(unavailable["status"], "UNAVAILABLE")
+
+    def test_public_status_runs_only_with_all_expected_modules(self):
+        class FakeGuard:
+            source_ok = True
+            reason = "allowed: A02 held together with the constitution"
+            def _metadata(self, token_id):
+                key = next(k for k, v in MODULE_TOKENS.items() if v == token_id)
+                return {"name": EXPECTED_NAMES[key], "description": "test"}
+            def allowed(self):
+                return True
+            def params(self):
+                return {"se_threshold": 3.0, "cooldown": 20, "zeta": 0.5}
+
+        status = build_status(FakeGuard())
+        self.assertEqual(status["status"], "RUNNING")
+        self.assertEqual(set(status["modules"]), set(MODULE_TOKENS))
+        self.assertEqual(status["rules"]["zeta"], 0.5)
 
     def test_params_cannot_bypass_creator_veto_even_when_cached(self):
         guard = VACGuard.__new__(VACGuard)
