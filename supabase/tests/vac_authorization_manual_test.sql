@@ -1,0 +1,11 @@
+-- Manual integration-test checklist for a disposable VAC project.
+-- Use two authenticated test users (owner A and grantee B); never use real personal data.
+-- 1. A inserts a vac_resources row.
+-- 2. A inserts a vac_grants row for B with scopes={'read'}, purpose='summarize', expiry in the future.
+-- 3. B calls vac-authorize with exact resource_id, purpose='summarize', scopes=['read']; expect 200 and an allowed log.
+-- 4. B requests a different purpose; expect 403 and a denied log.
+-- 5. B requests an ungranted scope; expect 403 and a denied log.
+-- 6. A sets revoked_at=now(); B repeats the valid request; expect 403.
+-- 7. B attempts direct SELECT on A's resources/grants; expect no rows.
+-- 8. anon attempts direct access; expect denied.
+-- 9. Confirm anon/authenticated clients cannot insert access-log rows.

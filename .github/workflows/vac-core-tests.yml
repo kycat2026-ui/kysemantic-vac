@@ -1,0 +1,23 @@
+name: VAC authorization core tests
+
+on:
+  push:
+    branches: [main, "feat/vac-authorization-core"]
+    paths:
+      - "vac_core/**"
+      - ".github/workflows/vac-core-tests.yml"
+  pull_request:
+    paths:
+      - "vac_core/**"
+      - ".github/workflows/vac-core-tests.yml"
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run authorization tests
+        run: python -m unittest discover -s vac_core -p 'test_*.py' -v
