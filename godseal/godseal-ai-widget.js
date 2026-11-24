@@ -9,6 +9,8 @@
   "use strict";
   var IMG_BASE = "https://kycat2026-ui.github.io/kysemantic-vac/godseal/img/godseal_";
   var DEFAULT_API = "https://lsxpcvaitgtskyogligj.supabase.co/functions/v1/godseal-api";
+  var SUPABASE_URL = "https://lsxpcvaitgtskyogligj.supabase.co";
+  var SUPABASE_PUBLIC_KEY = "sb_publishable__Rxiox30Ka1KDigkTjmrgw_tNau3lRK";
 
   var CSS = [
     ".gs-ai{--gs-bg:#0e0b09;--gs-card:#16110d;--gs-gold:#c4a062;--gs-text:#eadfca;--gs-dim:#a08d70;",
@@ -22,6 +24,9 @@
     ".gs-sig img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:6px;display:block;margin-bottom:4px}",
     ".gs-sig.off{opacity:.35}",
     ".gs-sig.on{border-color:var(--gs-gold);box-shadow:0 0 14px rgba(216,180,90,.55);transform:translateY(-2px)}",
+    ".gs-auth{margin:12px 0;padding:12px;background:var(--gs-card);border:1px solid #3a3020;border-radius:8}",
+    ".gs-auth input{box-sizing:border-box;width:100%;margin:4px 0;padding:9px;background:#0e0b09;color:var(--gs-text);border:1px solid #3a3020;border-radius:6px;font:inherit}",
+    ".gs-auth-status{font-size:.82rem;color:var(--gs-dim);margin-bottom:6px}",
     ".gs-ai textarea{width:100%;box-sizing:border-box;min-height:80px;background:var(--gs-card);color:var(--gs-text);",
     "border:1px solid #3a3020;border-radius:8px;padding:10px;font:inherit;resize:vertical}",
     ".gs-ai button{margin-top:10px;background:var(--gs-gold);color:#1a1408;border:0;border-radius:8px;padding:10px 18px;",
@@ -50,11 +55,25 @@
     var api = (root.getAttribute("data-api") || DEFAULT_API).replace(/\/$/, "");
     var sigils = [];
     var last = null;
+    var authClient = window.supabase && window.supabase.createClient
+      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLIC_KEY)
+      : null;
+    var currentSession = null;
 
     root.innerHTML = "";
     var box = el("section", "gs-ai");
     box.appendChild(el("h2", null, "GodSeal AI"));
     box.appendChild(el("p", "gs-sub", "輸入你想創造的符印效果，AI 會從 16 枚符印中選擇並排列。"));
+    var authBox = el("div", "gs-auth");
+    var authStatus = el("div", "gs-auth-status", authClient ? "保存作品需要登入。" : "登入元件載入失敗，請重新整理頁面。");
+    var email = el("input"); email.type = "email"; email.placeholder = "電子郵件"; email.autocomplete = "email";
+    var password = el("input"); password.type = "password"; password.placeholder = "密碼（至少 6 位）"; password.autocomplete = "current-password";
+    var signIn = el("button", null, "登入"); signIn.type = "button";
+    var signUp = el("button", "gs-ghost", "建立帳號"); signUp.type = "button";
+    var signOut = el("button", "gs-ghost", "登出"); signOut.type = "button"; signOut.style.display = "none";
+    authBox.appendChild(authStatus); authBox.appendChild(email); authBox.appendChild(password);
+    authBox.appendChild(signIn); authBox.appendChild(signUp); authBox.appendChild(signOut);
+    box.appendChild(authBox);
     var grid = el("div", "gs-grid");
     box.appendChild(grid);
     var ta = el("textarea");
@@ -68,6 +87,37 @@
     box.appendChild(save);
     var err = el("div", "gs-err");
     box.appendChild(err);
+
+    function updateAuth(session) {
+      currentSession = session || null;
+      var loggedIn = !!(currentSession && currentSession.access_token);
+      authStatus.textContent = loggedIn ? "已登入：" + (currentSession.user.email || "帳戶") + "。可保存私人作品。" : "尚未登入。保存作品前請先登入或建立帳號。";
+      email.style.display = loggedIn ? "none" : "";
+      password.style.display = loggedIn ? "none" : "";
+      signIn.style.display = loggedIn ? "none" : "";
+      signUp.style.display = loggedIn ? "none" : "";
+      signOut.style.display = loggedIn ? "" : "none";
+      save.disabled = !loggedIn;
+    }
+    if (authClient) {
+      authClient.auth.getSession().then(function (r) { updateAuth(r.data.session); });
+      authClient.auth.onAuthStateChange(function (_event, session) { updateAuth(session); });
+      signIn.addEventListener("click", async function () {
+        err.textContent = "";
+        var r = await authClient.auth.signInWithPassword({ email: email.value.trim(), password: password.value });
+        if (r.error) err.textContent = r.error.message;
+      });
+      signUp.addEventListener("click", async function () {
+        err.textContent = "";
+        var r = await authClient.auth.signUp({ email: email.value.trim(), password: password.value });
+        if (r.error) err.textContent = r.error.message;
+        else if (!r.data.session) authStatus.textContent = "帳號已建立，請先到電子郵件收取驗證連結，再回來登入。";
+      });
+      signOut.addEventListener("click", async function () {
+        var r = await authClient.auth.signOut();
+        if (r.error) err.textContent = r.error.message;
+      });
+    }
     var out = el("div", "gs-out");
     box.appendChild(out);
     root.appendChild(box);
@@ -141,13 +191,20 @@
       if (seq.status !== "invalid") save.style.display = "inline-block";
     }
 
-    save.addEventListener("click", function () {
+    save.addEventListener("click", async function () {
       if (!last) return;
       var p = last.data.plan;
+      var sessionResult = authClient ? await authClient.auth.getSession() : null;
+      var session = sessionResult && sessionResult.data.session;
+      if (!session || !session.access_token) {
+        err.textContent = "請先登入，作品才會以私人方式保存。";
+        updateAuth(null);
+        return;
+      }
       save.disabled = true;
       fetch(api + "/creations", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": "Bearer " + session.access_token },
         body: JSON.stringify({
           prompt: last.prompt, sigil_ids: last.data.sequence.sigil_ids,
           incantation: p.incantation, translation: p.translation, narrative: p.narrative,
@@ -156,6 +213,7 @@
       }).then(function (r) { return r.json(); }).then(function (d) {
         if (!d.success) throw new Error(d.error || "保存失敗");
         save.textContent = "已保存 ✓";
+        save.disabled = false;
       }).catch(function (e) {
         err.textContent = e.message; save.disabled = false;
       });
