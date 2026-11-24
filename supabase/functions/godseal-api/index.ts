@@ -23,7 +23,7 @@ const authClient = createClient(env("SUPABASE_URL")!, env("SUPABASE_ANON_KEY")!,
 
 async function authenticatedUser(req: Request) {
   const header = req.headers.get("authorization") ?? "";
-  const match = header.match(/^Bearer\\s+(.+)$/i);
+  const match = header.match(/^Bearer\s+(.+)$/i);
   if (!match) return null;
   const { data, error } = await authClient.auth.getUser(match[1]);
   if (error || !data.user) return null;
